@@ -1,6 +1,6 @@
 Package: gmish
 Type: Package
-Title: Miscellaneous Functions for Predictive Modeling Used by Gary
+Title: Miscellaneous Functions for Predictive Modeling
 Version: 0.1.0
 Author: Gary Weissman
 Maintainer: Gary Weissman <garyw@upenn.edu>
