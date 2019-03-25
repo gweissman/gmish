@@ -5,22 +5,22 @@
 #' @return A data.frame of columns each representing a category in \code{var} with binary indicators 0/1.
 #' @examples
 #' # Encode a vector
-#' lets <- rep(letters[1:3], 5)
+#' lets <- rep(letters[1:3], 3)
 #' ohe(lets)
 #'
 #' # Encode a single column of a data.frame
-#' df < data.frame(lets, x = runif(9))
-#' one(df$lets)
+#' df <- data.frame(lets, x = runif(9))
+#' ohe(df$lets)
 #'
 #' # Encode just the categorical columns and combine
 #' df2 <- data.frame(lets, LETS = rep(LETTERS[1:3], 3), x = rnorm(9))
 #' data.frame(lapply(df2, function(x) if(is.factor(x)) { ohe(x) } else { x } ))
-ohe <- function(vars, drop_ref = TRUE) {
-  vname <- deparse(substitute(vars))
-  lvls <- unlist(unique(vars))
+ohe <- function(var, drop_ref = TRUE) {
+  vname <- deparse(substitute(var))
+  lvls <- unlist(unique(var))
   tmp_list <- list()
   for (lev in lvls) {
-    tmp_list[[make.names(paste0(vname,'_',lev))]] <- as.numeric(vars == lev)
+    tmp_list[[make.names(paste0(vname,'_',lev))]] <- as.numeric(var == lev)
   }
   res <- as.data.frame(tmp_list)
   if (drop_ref) {
