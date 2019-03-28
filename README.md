@@ -17,9 +17,13 @@ Predict survival aboard the Titanic.
 # Prepare the data
 titanic_df <- as.data.frame(Titanic)
 # Build a model
-m <- glm(as.numeric(Survived) - 1 ~ ., data = tt[,1:4], family = binomial, weights = tt$Freq)
+m <- glm(as.numeric(Survived) - 1 ~ ., data = titanic_df[,1:4], 
+                                      family = binomial, 
+                                      weights = titanic_df$Freq)
 # Get predictions for each group
 preds <- predict(m, type = 'response')
 # Evaluate performance of the model with the Scaled Brier Score
-sbs(preds, as.numeric(tt$Survived) - 1)
+sbs(preds, as.numeric(titanic_df$Survived) - 1)
+# Get confidence interval of estimated Scaled Brier Score
+bs.ci(preds, as.numeric(titanic_df$Survived) - 1, metric = sbs)
 ```
