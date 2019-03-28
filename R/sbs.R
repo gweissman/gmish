@@ -1,4 +1,5 @@
 #' Calculate the Scaled Brier Score for predicted probabilities against a binary outcome.
+#' @export
 #'
 #' @param preds A vector of predicted probabilities.
 #' @param obs A vector containing the observed binary outcomes (0 or 1).

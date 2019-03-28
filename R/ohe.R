@@ -1,5 +1,6 @@
 #' One-hot encodes a single data.frame column or vector
-
+#' @export
+#'
 #' @param var A vector or data.frame column of categorical variables
 #' @param drop_ref Logical, default = \code{TRUE}. Will return x - 1 columns for x unique categories. Choose \code{FALSE} to return x columns.
 #' @return A data.frame of columns each representing a category in \code{var} with binary indicators 0/1.

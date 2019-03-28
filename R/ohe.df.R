@@ -1,4 +1,5 @@
 #' One-hot encodes all categorical variables in a data.frame
+#'@export
 #'
 #' @param df A data.frame that can contain columns of any variable type.
 #' @param drop_ref Logical, default = \code{TRUE}. Will return x - 1 columns for x unique categories. Choose \code{FALSE} to return x columns.
