@@ -18,15 +18,16 @@ bs.ci(preds, obs, metric = NULL, reps = 1000, conf = 0.95,
 
 \item{conf}{The width of the confidence interval. Default = 0.95.}
 
-\item{seed}{An optional random seed.
-#' @examples
+\item{seed}{An optional random seed.}
+}
+\description{
+Calculate the bias-corrected, basic bootstrapped confidence interval for a given performance metric.
+}
+\examples{
 # Generate some predictions
 predictions <- runif(1000)
 # Generate some binary outcomes
 observations <- sample(0:1, size = 1000, replace = TRUE)
 # Calculate the Confidence interval around the estimate of the Brier Score
-bs.ci(predictions, observations, bs)}
-}
-\description{
-Calculate the bias-corrected, basic bootstrapped confidence interval for a given performance metric.
+bs.ci(predictions, observations, metric = bs)
 }

@@ -7,18 +7,18 @@
 #' @param reps The number of bootstrap replicates. Default = 1000.
 #' @param conf The width of the confidence interval. Default = 0.95.
 #' @param seed An optional random seed.
-#' #' @examples
+#' @examples
 #' # Generate some predictions
 #' predictions <- runif(1000)
 #' # Generate some binary outcomes
 #' observations <- sample(0:1, size = 1000, replace = TRUE)
 #' # Calculate the Confidence interval around the estimate of the Brier Score
-#' bs.ci(predictions, observations, bs)
+#' bs.ci(predictions, observations, metric = bs)
 
 bs.ci <- function(preds, obs, metric = NULL, reps = 1000, conf = 0.95, seed = NULL) {
   # Error checking
-  assertthat::assert_that(is.function(metric), 'metric must be of the form function(preds, obs)')
-  assertthat::assert_that(length(preds) == length(obs), 'preds and obs must be of equal length')
+  assertthat::assert_that(is.function(metric), msg = 'metric must be of the form function(preds, obs)')
+  assertthat::assert_that(length(preds) == length(obs), msg = 'preds and obs must be of equal length')
   # Seed
   if (! is.null(seed)) set.seed(seed)
   # get estimate of metric on replicate
@@ -34,7 +34,7 @@ bs.ci <- function(preds, obs, metric = NULL, reps = 1000, conf = 0.95, seed = NU
   # Return results
   res <- c(basic_boot[4], basic_boot[5])
   mname <- deparse(substitute(metric))
-  names(res) <- c(mname, '_ci_', paste0((1-conf)/2, '%'),
+  names(res) <- c(paste0(mname, '_ci_', (1-conf)/2, '%'),
                   paste0(mname, '_ci_', conf + (1-conf)/2, '%'))
   return(res)
 }
