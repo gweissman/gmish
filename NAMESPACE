@@ -2,6 +2,7 @@
 
 export(bs)
 export(bs.ci)
+export(cstat)
 export(ohe)
 export(ohe.df)
 export(sbs)
