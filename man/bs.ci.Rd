@@ -5,7 +5,7 @@
 \title{Calculate the bias-corrected, basic bootstrapped confidence interval for a given performance metric.}
 \usage{
 bs.ci(preds, obs, metric = NULL, reps = 1000, conf = 0.95,
-  seed = NULL)
+  seed = NULL, ...)
 }
 \arguments{
 \item{preds}{A vector of predicted probabilities.}
@@ -19,6 +19,8 @@ bs.ci(preds, obs, metric = NULL, reps = 1000, conf = 0.95,
 \item{conf}{The width of the confidence interval. Default = 0.95.}
 
 \item{seed}{An optional random seed.}
+
+\item{...}{Additional arguments for the particular metric function, e.g. `thresh = 0.6`}
 }
 \description{
 Calculate the bias-corrected, basic bootstrapped confidence interval for a given performance metric.

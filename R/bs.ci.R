@@ -7,6 +7,7 @@
 #' @param reps The number of bootstrap replicates. Default = 1000.
 #' @param conf The width of the confidence interval. Default = 0.95.
 #' @param seed An optional random seed.
+#' @param ... Additional arguments for the particular metric function, e.g. `thresh = 0.6`
 #' @examples
 #' # Generate some predictions
 #' predictions <- runif(1000)
@@ -15,24 +16,25 @@
 #' # Calculate the Confidence interval around the estimate of the Brier Score
 #' bs.ci(predictions, observations, metric = bs)
 
-bs.ci <- function(preds, obs, metric = NULL, reps = 1000, conf = 0.95, seed = NULL) {
+bs.ci <- function(preds, obs, metric = NULL, reps = 1000, conf = 0.95, seed = NULL, ...) {
   # Error checking
   assertthat::assert_that(is.function(metric), msg = 'metric must be of the form function(preds, obs)')
   assertthat::assert_that(length(preds) == length(obs), msg = 'preds and obs must be of equal length')
   # Seed
   if (! is.null(seed)) set.seed(seed)
-  # get estimate of metric on replicate
-  samp_est <- function(preds, obs, f) {
-    idx <- sample(1:length(preds), replace = TRUE)
-    f(preds[idx], obs[idx])
-  }
+
+  # create a bootstrap statistic function
+  boot_stat <- function(f, ...)
+    function(d, i) {
+      f(d[i,1], d[i,2], ...)
+    }
+print(boot_stat)
   # Generate replicates
-  boot_ests <- replicate(reps, samp_est(preds, obs, metric))
+  boot_ests <- boot::boot(data = cbind(preds, obs), statistic = boot_stat(metric), R = reps)
   # Calculate bias-corrected standard bootstrap CIs
-  basic_boot <- boot:::basic.ci(metric(preds,obs),
-                                boot_ests, conf)
+  boot_ci <- boot::boot.ci(boot_ests, conf, type = 'basic')
   # Return results
-  res <- c(basic_boot[4], basic_boot[5])
+  res <- c(boot_ci$basic[4], boot_ci$basic[5])
   mname <- deparse(substitute(metric))
   names(res) <- c(paste0(mname, '_ci_', (1-conf)/2, '%'),
                   paste0(mname, '_ci_', conf + (1-conf)/2, '%'))
