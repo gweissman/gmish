@@ -4,6 +4,7 @@
 #' @param preds A vector of predicted probabilities.
 #' @param obs A vector containing the observed binary outcomes (0 or 1).
 #' @param beta The default weighting of the precision and recall. Default beta = 1 which yields the "F_1" Score.
+#' @param thresh The probability threshold at or above which a prediction is considered to be positive.
 #' @return The F Score is the harmonic mean of the precision (positive predictive value) and recall (sensitivity).
 #' @examples
 #' # Generate some predictions

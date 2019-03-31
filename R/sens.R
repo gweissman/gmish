@@ -13,7 +13,7 @@
 #' # Calculate the Sensitivity
 #' sens(predictions, observations)
 #' # And at a different threshold
-#' send(predicions, observations, thresh = 0.8)
+#' sens(predictions, observations, thresh = 0.8)
 sens <- function(preds, obs, thresh = 0.5) {
   # Error checking
   assertthat::assert_that(length(preds) == length(obs),

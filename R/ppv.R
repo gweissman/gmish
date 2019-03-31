@@ -13,7 +13,7 @@
 #' # Calculate the Sensitivity
 #' ppv(predictions, observations)
 #' # And at a different threshold
-#' ppv(predicions, observations, thresh = 0.8)
+#' ppv(predictions, observations, thresh = 0.8)
 ppv <- function(preds, obs, thresh = 0.5) {
   # Error checking
   assertthat::assert_that(length(preds) == length(obs),
