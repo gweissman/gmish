@@ -4,7 +4,7 @@
 #' @param preds A vector of predicted probabilities.
 #' @param obs A vector containing the observed binary outcomes (0 or 1).
 #' @param thresh The threshold at or above which a prediction is considered positive. Default = 0.5.
-#' @return The F Score is the harmonic mean of the precision (positive predictive value) and recall (sensitivity).
+#' @return The sensitivity is the probability of a true prediction conditional on a true outcome.
 #' @examples
 #' # Generate some predictions
 #' predictions <- runif(1000)
