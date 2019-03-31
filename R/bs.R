@@ -12,5 +12,10 @@
 #' # Calculate the Brier Score
 #' bs(predictions, observations)
 bs <- function(preds, obs) {
+  # Error checking
+  assertthat::assert_that(length(preds) == length(obs),
+                          msg = 'preds and obs must be of equal length')
+  assertthat::are_equal(sort(unique(obs)), c(0,1),
+                        msg = 'obs must only contain 0 and 1, and must contain both 0 and 1')
   mean((obs - preds)^2)
 }
