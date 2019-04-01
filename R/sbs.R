@@ -10,7 +10,7 @@
 #' predictions <- runif(1000)
 #' # Generate some binary outcomes
 #' observations <- sample(0:1, size = 1000, replace = TRUE)
-#' # Calculate the Scaled Brier Score
+#' # Calculate the Brier Score
 #' sbs(predictions, observations)
 sbs <- function(preds, obs) {
   # Error checking
@@ -18,5 +18,5 @@ sbs <- function(preds, obs) {
                           msg = 'preds and obs must be of equal length')
   assertthat::are_equal(sort(unique(obs)), c(0,1),
                         msg = 'obs must only contain 0 and 1, and must contain both 0 and 1')
-  1 - (bs(preds, obs)) / (bs(mean(obs), obs))
+  1 - (bs(preds, obs)) / (bs(rep(mean(obs), length(obs)), obs))
 }

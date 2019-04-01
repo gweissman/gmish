@@ -23,6 +23,6 @@ Calculate the Scaled Brier Score for predicted probabilities against a binary ou
 predictions <- runif(1000)
 # Generate some binary outcomes
 observations <- sample(0:1, size = 1000, replace = TRUE)
-# Calculate the Scaled Brier Score
+# Calculate the Brier Score
 sbs(predictions, observations)
 }
