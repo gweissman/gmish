@@ -17,5 +17,5 @@ lloss <- function(preds, obs) {
                           msg = 'preds and obs must be of equal length')
   assertthat::are_equal(sort(unique(obs)), c(0,1),
                         msg = 'obs must only contain 0 and 1, and must contain both 0 and 1')
-  sum(obs * log(preds) + (1 - obs) * log(1 - preds))
+  - sum(obs * log(preds) + (1 - obs) * log(1 - preds))
 }
