@@ -1,10 +1,10 @@
-#' Calculate the zero-one loss (i.e. accuracy) for predicted probabilities against a binary outcome.
+#' Calculate the zero-one loss (i.e. 1 - accuracy) for predicted probabilities against a binary outcome.
 #' @export
 #'
 #' @param preds A vector of predicted probabilities.
 #' @param obs A vector containing the observed binary outcomes (0 or 1).
 #' @param thresh The threshold at or above which a prediction is considered positive. Default = 0.5.
-#' @return The accuracy, or zero-one loss, of the predictions at a given threshold.
+#' @return The 1 - accuracy, or zero-one loss, of the predictions at a given threshold.
 #' @examples
 #' # Generate some predictions
 #' predictions <- runif(1000)
@@ -18,5 +18,5 @@ zol <- function(preds, obs, thresh = 0.5) {
                           msg = 'preds and obs must be of equal length')
   assertthat::are_equal(sort(unique(obs)), c(0,1),
                         msg = 'obs must only contain 0 and 1, and must contain both 0 and 1')
-  mean((preds >= thresh) == obs)
+  1 - mean((preds >= thresh) == obs)
 }
