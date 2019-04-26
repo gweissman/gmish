@@ -2,7 +2,7 @@
 % Please edit documentation in R/zol.R
 \name{zol}
 \alias{zol}
-\title{Calculate the zero-one loss (i.e. accuracy) for predicted probabilities against a binary outcome.}
+\title{Calculate the zero-one loss (i.e. 1 - accuracy) for predicted probabilities against a binary outcome.}
 \usage{
 zol(preds, obs, thresh = 0.5)
 }
@@ -14,10 +14,10 @@ zol(preds, obs, thresh = 0.5)
 \item{thresh}{The threshold at or above which a prediction is considered positive. Default = 0.5.}
 }
 \value{
-The accuracy, or zero-one loss, of the predictions at a given threshold.
+The 1 - accuracy, or zero-one loss, of the predictions at a given threshold.
 }
 \description{
-Calculate the zero-one loss (i.e. accuracy) for predicted probabilities against a binary outcome.
+Calculate the zero-one loss (i.e. 1 - accuracy) for predicted probabilities against a binary outcome.
 }
 \examples{
 # Generate some predictions

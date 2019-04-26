@@ -14,9 +14,9 @@
 #' # Generate some binary outcomes
 #' observations <- sample(0:1, size = 1000, replace = TRUE)
 #' # Calculate the Confidence interval around the estimate of the Brier Score
-#' bs.ci(predictions, observations, metric = bs)
+#' bs_ci(predictions, observations, metric = bs)
 
-bs.ci <- function(preds, obs, metric = NULL, reps = 1000, conf = 0.95, seed = NULL, ...) {
+bs_ci <- function(preds, obs, metric = NULL, reps = 1000, conf = 0.95, seed = NULL, ...) {
   # Error checking
   assertthat::assert_that(is.function(metric), msg = 'metric must be of the form function(preds, obs)')
   assertthat::assert_that(length(preds) == length(obs), msg = 'preds and obs must be of equal length')
@@ -28,7 +28,7 @@ bs.ci <- function(preds, obs, metric = NULL, reps = 1000, conf = 0.95, seed = NU
     function(d, i) {
       f(d[i,1], d[i,2], ...)
     }
-print(boot_stat)
+
   # Generate replicates
   boot_ests <- boot::boot(data = cbind(preds, obs), statistic = boot_stat(metric), R = reps)
   # Calculate bias-corrected standard bootstrap CIs
