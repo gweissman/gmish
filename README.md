@@ -25,5 +25,5 @@ preds <- predict(m, type = 'response')
 # Evaluate performance of the model with the Scaled Brier Score
 sbs(preds, as.numeric(titanic_df$Survived) - 1)
 # Get confidence interval of estimated Scaled Brier Score
-bs.ci(preds, as.numeric(titanic_df$Survived) - 1, metric = sbs)
+bs_ci(preds, as.numeric(titanic_df$Survived) - 1, metric = sbs)
 ```
