@@ -40,7 +40,7 @@ p <- ggplot(dt_all, aes(Predicted, Observed, color = Model)) +
   geom_errorbar(aes(ymin = ci_lo, ymax = ci_hi), width = 0.03) +
   theme_bw() +
   coord_fixed()
-if (refline) p <- p + geom_abline(slope = 1, intercept = 0, size = 0.5)
+if (refline) p <- p + geom_abline(slope = 1, intercept = 0, size = 0.5, color = 'lightgray')
 if (rug) p <- p + geom_rug()
 if (smooth) p <- p + geom_smooth(method = 'lm', lty = 5, size = 0.3)
 return(p)
