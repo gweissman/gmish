@@ -1,5 +1,8 @@
 #' Produce a calibration plot for a set of predixcted probabilities for a binary classifer.
 #' @export
+#' @import ggplot2
+#' @import data.table
+#' @importFrom stats binom.test
 #'
 #' @param form A formula where the left-hand side is the variable representing the observed outcome, 0 or 1, and the right-hand side represents the column names of the different model probabilities.
 #' @param data A data frame that contains at least two columns, one of which is the observed outcome and the others that are predicted probabilities.
@@ -11,10 +14,6 @@
 #' m1 <- glm(mpg > 20 ~ cyl + disp + hp, family = 'binomial', data = mtcars)
 #' results <- data.frame(outcome = mtcars$mpg > 20, lr_1 = predict(m1, type = 'response'))
 #' calib_plot(outcome ~ lr_1, data = results)
-
-# Need ggplot2, consider adding lattice version later
-require(ggplot2)
-require(data.table) # do this in base R later
 
 calib_plot <- function(form, data, cuts = 10, refline = TRUE,
                        smooth = FALSE, rug = FALSE) {
@@ -31,8 +30,8 @@ calib_plot <- function(form, data, cuts = 10, refline = TRUE,
                                               .(Model = m,
                                                 Predicted = mean(get(m)),
                                                 Observed = mean(obs),
-                                                ci_lo = binom.test(sum(obs),.N)$conf.int[1],
-                                                ci_hi = binom.test(sum(obs),.N)$conf.int[2]),
+                                                ci_lo = binom.test(sum(get(obs)),.N)$conf.int[1],
+                                                ci_hi = binom.test(sum(get(obs)),.N)$conf.int[2]),
                                               by = bin]
   })
 dt_all <- rbindlist(dt)
