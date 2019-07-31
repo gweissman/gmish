@@ -32,5 +32,5 @@ bs_ci(preds, as.numeric(titanic_df$Survived) - 1, metric = sbs)
 # Make calibration plot for predictions
 calib_plot(obs ~ model1, 
     data = data.frame(obs = as.numeric(titanic_df$Survived) - 1,
-                      model1 = preds))
+                      model1 = preds), cuts = 5)
 ```

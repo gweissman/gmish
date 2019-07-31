@@ -13,25 +13,25 @@
 #' @examples
 #' m1 <- glm(mpg > 20 ~ cyl + disp + hp, family = 'binomial', data = mtcars)
 #' results <- data.frame(outcome = mtcars$mpg > 20, lr_1 = predict(m1, type = 'response'))
-#' calib_plot(outcome ~ lr_1, data = results)
+#' calib_plot(outcome ~ lr_1, data = results, cuts = 5)
 
 calib_plot <- function(form, data, cuts = 10, refline = TRUE,
                        smooth = FALSE, rug = FALSE) {
 
   data <- as.data.table(data)
   # Identify vars
-  obs <- all.vars(form)[1]
+  y <- all.vars(form)[1]
   mods <- all.vars(form)[-1]
 
 
   dt <- lapply(mods, function(m) {
-      data[,c(m,obs), with = FALSE][, bin := cut(get(m), breaks = cuts,
+      data[,c(m,y), with = FALSE][, bin := cut(get(m), breaks = cuts,
                                    labels = FALSE)][,
                                               .(Model = m,
                                                 Predicted = mean(get(m)),
-                                                Observed = mean(obs),
-                                                ci_lo = binom.test(sum(get(obs)),.N)$conf.int[1],
-                                                ci_hi = binom.test(sum(get(obs)),.N)$conf.int[2]),
+                                                Observed = mean(get(y)),
+                                                ci_lo = binom.test(sum(get(y)),.N)$conf.int[1],
+                                                ci_hi = binom.test(sum(get(y)),.N)$conf.int[2]),
                                               by = bin]
   })
 dt_all <- rbindlist(dt)
