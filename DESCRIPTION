@@ -2,7 +2,7 @@ Package: gmish
 Type: Package
 Title: Miscellaneous Functions for Predictive Modeling
 Version: 0.1.0
-Imports: assertthat, boot 
+Imports: assertthat, boot, ggplot2
 Author: Gary Weissman
 Maintainer: Gary Weissman <garyw@upenn.edu>
 Description: Useful functions for wrangling data, training, and evaluating prediction models. Commonly used functions include the Brier Score, Scaled Brier Score, and a quick one-hot encoding utility.
