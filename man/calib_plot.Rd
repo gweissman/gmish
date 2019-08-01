@@ -26,5 +26,5 @@ Produce a calibration plot for a set of predixcted probabilities for a binary cl
 \examples{
 m1 <- glm(mpg > 20 ~ cyl + disp + hp, family = 'binomial', data = mtcars)
 results <- data.frame(outcome = mtcars$mpg > 20, lr_1 = predict(m1, type = 'response'))
-calib_plot(outcome ~ lr_1, data = results)
+calib_plot(outcome ~ lr_1, data = results, cuts = 5)
 }

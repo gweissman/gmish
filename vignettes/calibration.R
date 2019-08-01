@@ -1,0 +1,22 @@
+## ----setup, include=FALSE------------------------------------------------
+knitr::opts_chunk$set(echo = TRUE)
+
+## ------------------------------------------------------------------------
+# This will be a vignette for the calibration plot examples
+library(gmish)
+library(randomForest)
+
+dd <- ggplot2::diamonds
+dd$exp <- dd$price > 5000
+dd$price <- NULL
+
+m1 <- glm(exp ~ ., data = dd, family = 'binomial')
+p1 <- predict(m1, type = 'response')
+
+m2 <- randomForest(as.factor(exp) ~ ., data = dd, ntrees = 200)
+p2 <- predict(m2, type = 'prob')[,2]
+
+res <- data.frame(obs = dd$exp, glm = p1, rf = p2)
+
+calib_plot(obs ~ glm + rf, res, cut = 10)
+
