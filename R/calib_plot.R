@@ -38,6 +38,7 @@ dt_all <- rbindlist(dt)
 p <- ggplot(dt_all, aes(Predicted, Observed, color = Model)) +
   geom_point() + geom_line() +
   geom_errorbar(aes(ymin = ci_lo, ymax = ci_hi), width = 0.03) +
+  xlim(0, 1) + ylim(0, 1) +
   theme_bw() +
   coord_fixed()
 if (refline) p <- p + geom_abline(slope = 1, intercept = 0, size = 0.5, color = 'lightgray')
