@@ -41,8 +41,16 @@ p <- ggplot(dt_all, aes(Predicted, Observed, color = Model)) +
   xlim(0, 1) + ylim(0, 1) +
   theme_bw() +
   coord_fixed()
+
 if (refline) p <- p + geom_abline(slope = 1, intercept = 0, size = 0.5, color = 'lightgray')
-if (rug) p <- p + geom_rug()
+
+if (rug) {
+  dt_preds <- data[, mods, with = FALSE]
+  dt_preds_melt <- melt(dt_preds, measure.vars = mods)
+  p <- p + geom_rug(data = dt_preds_melt, aes(x = value, color = variable),
+                    sides = 'b', inherit.aes = FALSE)
+}
+
 if (smooth) p <- p + geom_smooth(method = 'lm', lty = 5, size = 0.3)
 return(p)
 }
