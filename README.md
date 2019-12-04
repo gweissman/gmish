@@ -15,22 +15,34 @@ Predict survival aboard the Titanic.
 
 ```{r}
 # Prepare the data
-titanic_df <- as.data.frame(Titanic)
+dd <- ISLR::Credit
+head(dd)
 # Build a model
-m <- glm(as.numeric(Survived) - 1 ~ ., data = titanic_df[,1:4], 
-                                      family = binomial, 
-                                      weights = titanic_df$Freq)
+m <- glm(Balance == 0 ~ Income + Rating + Cards + Age + Gender, 
+          data = dd,   family = binomial)
+                                    
 # Get predictions for each group
-preds <- predict(m, type = 'response')
+preds1 <- predict(m, type = 'response')
 
 # Evaluate performance of the model with the Scaled Brier Score
-sbs(preds, as.numeric(titanic_df$Survived) - 1)
+sbs(preds1, dd$Balance == 0)
 
 # Get confidence interval of estimated Scaled Brier Score
-bs_ci(preds, as.numeric(titanic_df$Survived) - 1, metric = sbs)
+bs_ci(preds1, dd$Balance == 0, metric = sbs)
 
 # Make calibration plot for predictions
-calib_plot(obs ~ model1, 
-    data = data.frame(obs = as.numeric(titanic_df$Survived) - 1,
-                      model1 = preds), cuts = 5)
+results <- data.frame(obs = dd$Balance == 0,
+                      model1 = preds)
+                      
+calib_plot(obs ~ model1, data = results, cuts = 10)
+                      
+# Try a second model
+library(randomForest)
+m_rf <- randomForest(as.factor(Balance == 0) ~ Income + Rating + Cards + Age + Gender, 
+          data = dd)
+results$model2 <- predict(m_rf, type = 'prob')[,2]
+
+# Examine calibration together
+calib_plot(obs ~ model1 + model2, data = results)
 ```
+
