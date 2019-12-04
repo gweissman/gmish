@@ -20,18 +20,18 @@ calib_plot <- function(form, data, cuts = 10, refline = TRUE,
 
   data <- as.data.table(data)
   # Identify vars
-  y <- all.vars(form)[1]
-  mods <- all.vars(form)[-1]
+  .y <- all.vars(form)[1]
+  .mods <- all.vars(form)[-1]
 
 
-  dt <- lapply(mods, function(m) {
-      data[,c(m,y), with = FALSE][, bin := cut(get(m), breaks = cuts,
+  dt <- lapply(.mods, function(m) {
+      data[,c(m,.y), with = FALSE][, bin := cut(get(m), breaks = cuts,
                                    labels = FALSE)][,
                                               .(Model = m,
                                                 Predicted = mean(get(m)),
-                                                Observed = mean(get(y)),
-                                                ci_lo = binom.test(sum(get(y)),.N)$conf.int[1],
-                                                ci_hi = binom.test(sum(get(y)),.N)$conf.int[2]),
+                                                Observed = mean(get(.y)),
+                                                ci_lo = binom.test(sum(get(.y)),.N)$conf.int[1],
+                                                ci_hi = binom.test(sum(get(.y)),.N)$conf.int[2]),
                                               by = bin]
   })
 dt_all <- rbindlist(dt)
