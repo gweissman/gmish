@@ -44,5 +44,8 @@ results$model2 <- predict(m_rf, type = 'prob')[,2]
 
 # Examine calibration together
 calib_plot(obs ~ model1 + model2, data = results)
+
+# Estimate the difference in performance between the two models
+boot_diff(results$model1, results$model2, results$obs, metric = bs)
 ```
 
