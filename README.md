@@ -32,7 +32,7 @@ bs_ci(preds1, dd$Balance == 0, metric = sbs)
 
 # Make calibration plot for predictions
 results <- data.frame(obs = dd$Balance == 0,
-                      model1 = preds)
+                      model1 = preds1)
                       
 calib_plot(obs ~ model1, data = results, cuts = 10)
                       
