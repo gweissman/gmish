@@ -4,8 +4,7 @@
 \alias{bs_ci}
 \title{Calculate the bias-corrected, basic bootstrapped confidence interval for a given performance metric.}
 \usage{
-bs_ci(preds, obs, metric = NULL, reps = 1000, conf = 0.95,
-  seed = NULL, ...)
+bs_ci(preds, obs, metric = NULL, reps = 1000, conf = 0.95, seed = NULL, ...)
 }
 \arguments{
 \item{preds}{A vector of predicted probabilities.}

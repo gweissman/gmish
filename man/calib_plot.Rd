@@ -4,8 +4,7 @@
 \alias{calib_plot}
 \title{Produce a calibration plot for a set of predixcted probabilities for a binary classifer.}
 \usage{
-calib_plot(form, data, cuts = 10, refline = TRUE, smooth = FALSE,
-  rug = FALSE)
+calib_plot(form, data, cuts = 10, refline = TRUE, smooth = FALSE, rug = FALSE)
 }
 \arguments{
 \item{form}{A formula where the left-hand side is the variable representing the observed outcome, 0 or 1, and the right-hand side represents the column names of the different model probabilities.}
