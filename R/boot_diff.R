@@ -52,7 +52,6 @@ boot_diff <- function(preds1, preds2, obs, metric = NULL, reps = 1000, conf = 0.
   dist <- boot_ests$t - mean(boot_ests$t)
 
   # Calculate empiric p-value based on distribution
-
   # see: https://blogs.sas.com/content/iml/2011/11/02/how-to-compute-p-values-for-a-bootstrap-distribution.html
   empiric_pval <- function(vals, est) {
     (1 + sum(abs(vals) >= abs(est[1]))) / (length(vals) + 1)
