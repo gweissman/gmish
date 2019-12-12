@@ -20,8 +20,8 @@ bs_ci <- function(preds, obs, metric = NULL, reps = 1000, conf = 0.95, seed = NU
   # Error checking
   assertthat::assert_that(is.function(metric), msg = 'metric must be of the form function(preds, obs)')
   assertthat::assert_that(length(preds) == length(obs), msg = 'preds and obs must be of equal length')
-  assertthat::assert_that(preds>=0 & preds<=1, msg = 'all values of preds must fall between 0 and 1 (inclusive)')
-  assertthat::assert_that(obs %in% c(0,1), msg = 'all values of obs must be 0 or 1')
+  assertthat::assert_that(all(preds>=0) & all(preds<=1), msg = 'all values of preds must fall between 0 and 1 (inclusive)')
+  assertthat::assert_that(all(obs %in% c(0,1)), msg = 'all values of obs must be 0 or 1')
   # Seed
   if (! is.null(seed)) set.seed(seed)
 
