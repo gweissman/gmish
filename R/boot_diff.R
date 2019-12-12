@@ -25,7 +25,7 @@ boot_diff <- function(preds1, preds2, obs, metric = NULL, reps = 1000, conf = 0.
   assertthat::assert_that(length(preds1) == length(preds2), msg = 'preds1 and preds2 must be of equal length')
   assertthat::assert_that(all(preds1>=0) & all(preds1<=1), msg = 'all values of preds1 must fall between 0 and 1 (inclusive)')
   assertthat::assert_that(all(preds2>=0) & all(preds2<=1), msg = 'all values of preds2 must fall between 0 and 1 (inclusive)')
-  assertthat::assert_that(obs %in% c(0,1), msg = 'all values of obs must be 0 or 1')
+  assertthat::assert_that(all(obs %in% c(0,1)), msg = 'all values of obs must be 0 or 1')
   # Seed
   if (! is.null(seed)) set.seed(seed)
 
