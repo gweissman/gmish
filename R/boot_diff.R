@@ -42,8 +42,12 @@ boot_diff <- function(preds1, preds2, obs, metric = NULL, reps = 1000, conf = 0.
   # Generate replicates
   boot_ests <- boot::boot(data = cbind(preds1, preds2, obs),
                           statistic = boot_stat(metric), R = reps)
+  # Check for bad replicates
+  if (any(is.na(boot_ests$t))) {
+  warning(paste0(sum(is.na(boot_ests$t)), ' replicates produced NaN. Proceeding with estimation.')  
+  }
   # Recenter distribution to zero
-  dist <- boot_ests$t - mean(boot_ests$t)
+  dist <- boot_ests$t - mean(boot_ests$t, na.rm = TRUE)
 
   # Calculate empiric p-value based on distribution
 
