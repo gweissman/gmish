@@ -48,8 +48,10 @@ boot_diff <- function(preds1, preds2, obs, metric = NULL, reps = 1000, conf = 0.
   # Check for bad replicates
   if (any(is.na(boot_ests$t))) {
     warning(paste0(sum(is.na(boot_ests$t)),
-                 ' replicates produced NaN. Proceeding with estimation.'))
-    boot_ests$t <- boot_ests$t[! is.na(boot_ests$t)]
+                 ' replicate(s) produced NaN. Proceeding with estimation.'))
+    idx_na <- which(is.na(boot_ests$t))
+
+    boot_ests$t <- boot_ests$t[-idx_na]
   }
   # Recenter distribution to zero
   dist <- boot_ests$t - mean(boot_ests$t)
@@ -62,10 +64,17 @@ boot_diff <- function(preds1, preds2, obs, metric = NULL, reps = 1000, conf = 0.
   # Measures observed difference
   obs_diff <- metric(preds2, obs) - metric(preds1, obs)
 
+  # Get CI of difference
+  boot_ci <- boot::boot.ci(boot_ests, conf, type = 'basic')
+
   # Return results
-  res <- c(obs_diff, empiric_pval(dist, obs_diff))
+  res <- c(obs_diff, empiric_pval(dist, obs_diff),
+           boot_ci$basic[4], boot_ci$basic[5])
   mname <- deparse(substitute(metric))
   names(res) <- c(paste0(mname, '_diff_obs'),
-                  paste0(mname, '_diff_pval'))
+                  paste0(mname, '_diff_pval'),
+                  paste0(mname, '_diff_ci_', (1-conf)/2, '%'),
+                  paste0(mname, '_diff_ci_', conf + (1-conf)/2, '%'))
   return(res)
 }
+
