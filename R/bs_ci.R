@@ -33,10 +33,17 @@ bs_ci <- function(preds, obs, metric = NULL, reps = 1000, conf = 0.95, seed = NU
 
   # Generate replicates
   boot_ests <- boot::boot(data = cbind(preds, obs), statistic = boot_stat(metric), R = reps)
-  # Calculate bias-corrected standard bootstrap CIs
-  boot_ci <- boot::boot.ci(boot_ests, conf, type = 'basic')
-  # Return results
-  res <- c(boot_ci$basic[4], boot_ci$basic[5])
+  # Confirm variance in estimates
+  if (sd(boot_ests$t) == 0) {
+    print('Warning: No variance in bootstrapped statistic. Returning sole value as confidence interval limits')
+    res <- c(boot_ests$t, boot_ests$t)
+  } else {
+    # Calculate bias-corrected standard bootstrap CIs
+    boot_ci <- boot::boot.ci(boot_ests, conf, type = 'basic')
+    # Return results
+    res <- c(boot_ci$basic[4], boot_ci$basic[5])
+  }
+
   mname <- deparse(substitute(metric))
   names(res) <- c(paste0(mname, '_ci_', (1-conf)/2, '%'),
                   paste0(mname, '_ci_', conf + (1-conf)/2, '%'))
