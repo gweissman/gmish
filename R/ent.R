@@ -1,4 +1,4 @@
-#' Calculate the mean entropy for the predicted probabilities over an arbitrary set of classes.
+#' Calculate the mean Shannon entropy for the predicted probabilities over an arbitrary set of classes. NB. This is *not* the cross-entropy.
 #' @export
 #'
 #' @param preds A vector, matrix, or data frame of predicted probabilities. Each column should contain probabilities for a unique class.
