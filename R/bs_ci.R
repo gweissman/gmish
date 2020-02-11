@@ -7,6 +7,7 @@
 #' @param reps The number of bootstrap replicates. Default = 1000.
 #' @param conf The width of the confidence interval. Default = 0.95.
 #' @param seed An optional random seed.
+#' @param btype The type of bootstrap to calculate. Default is 'basic', also takes 'bca', or other types supported in the `boot` package.
 #' @param ... Additional arguments for the particular metric function, e.g. `thresh = 0.6`
 #' @examples
 #' # Generate some predictions
@@ -16,7 +17,8 @@
 #' # Calculate the Confidence interval around the estimate of the Brier Score
 #' bs_ci(predictions, observations, metric = bs)
 
-bs_ci <- function(preds, obs, metric = NULL, reps = 1000, conf = 0.95, seed = NULL, ...) {
+bs_ci <- function(preds, obs, metric = NULL, reps = 1000, conf = 0.95,
+                  seed = NULL, btype = "basic", ...) {
   # Error checking
   assertthat::assert_that(is.function(metric), msg = 'metric must be of the form function(preds, obs)')
   assertthat::assert_that(length(preds) == length(obs), msg = 'preds and obs must be of equal length')
@@ -39,7 +41,7 @@ bs_ci <- function(preds, obs, metric = NULL, reps = 1000, conf = 0.95, seed = NU
     res <- c(boot_ests$t, boot_ests$t)
   } else {
     # Calculate bias-corrected standard bootstrap CIs
-    boot_ci <- boot::boot.ci(boot_ests, conf, type = 'basic')
+    boot_ci <- boot::boot.ci(boot_ests, conf, type = btype)
     # Return results
     res <- c(boot_ci$basic[4], boot_ci$basic[5])
   }
