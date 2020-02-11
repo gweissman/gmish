@@ -6,10 +6,13 @@
 #' @examples
 #' # Generate some predictions
 #' predictions <- runif(1000)
-#' # Generate some binary outcomes
-#' observations <- sample(0:1, size = 1000, replace = TRUE)
 #' # Calculate the mean entropy
 #' ent(predictions)
+#' # Now try with a few classes
+#' p2 <- data.frame(runif(1000), runif(1000), runif(1000))
+#' sm <- function(v) exp(v) / sum(exp(v))
+#' p2_sm <- t(apply(p2, 1, function(r) sm(r)))
+#' ent(p2_sm)
 ent <- function(preds) {
   mean(
     apply(preds, 1, function(p) -sum(p * log(p)))
