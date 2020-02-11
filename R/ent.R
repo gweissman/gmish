@@ -15,6 +15,6 @@
 #' ent(p2_sm)
 ent <- function(preds) {
   mean(
-    apply(preds, 1, function(p) -sum(p * log(p)))
+    apply(as.matrix(preds), 1, function(p) -sum(p * log(p)))
   )
 }
