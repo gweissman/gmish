@@ -25,7 +25,7 @@ m <- glm(Balance == 0 ~ Income + Rating + Cards + Age + Gender,
 preds1 <- predict(m, type = 'response')
 
 # Evaluate performance of the model with the Scaled Brier Score
-sbs(preds1, dd$Balance == 0)
+sbrier(preds1, dd$Balance == 0)
 
 # Get confidence interval of estimated Scaled Brier Score
 bs_ci(preds1, dd$Balance == 0, metric = sbrier)
