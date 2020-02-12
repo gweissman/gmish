@@ -1,5 +1,6 @@
 #' Calculate the bootstrapped empiric two-sided p-value and difference between two sets of predictions for a given performance metric.
 #' @export
+#' @importFrom stats median sd
 #'
 #' @param preds1 A vector of predicted probabilities for the first model.
 #' @param preds2 A vector of predicted probabilities for the second model.

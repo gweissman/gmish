@@ -4,7 +4,16 @@
 \alias{bs_ci}
 \title{Calculate the bias-corrected, basic bootstrapped confidence interval for a given performance metric.}
 \usage{
-bs_ci(preds, obs, metric = NULL, reps = 1000, conf = 0.95, seed = NULL, ...)
+bs_ci(
+  preds,
+  obs,
+  metric = NULL,
+  reps = 1000,
+  conf = 0.95,
+  seed = NULL,
+  btype = "basic",
+  ...
+)
 }
 \arguments{
 \item{preds}{A vector of predicted probabilities.}
@@ -18,6 +27,8 @@ bs_ci(preds, obs, metric = NULL, reps = 1000, conf = 0.95, seed = NULL, ...)
 \item{conf}{The width of the confidence interval. Default = 0.95.}
 
 \item{seed}{An optional random seed.}
+
+\item{btype}{The type of bootstrap to calculate. Default is 'basic', also takes 'bca', or other types supported in the `boot` package.}
 
 \item{...}{Additional arguments for the particular metric function, e.g. `thresh = 0.6`}
 }
