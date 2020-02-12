@@ -15,7 +15,7 @@
 #' # Generate some binary outcomes
 #' observations <- sample(0:1, size = 1000, replace = TRUE)
 #' # Calculate the Confidence interval around the estimate of the Brier Score
-#' bs_ci(predictions, observations, metric = bs)
+#' bs_ci(predictions, observations, metric = brier)
 
 bs_ci <- function(preds, obs = NULL, metric = NULL, reps = 1000, conf = 0.95,
                   seed = NULL, btype = "basic", ...) {

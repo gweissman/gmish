@@ -11,7 +11,7 @@
 #' # Generate some binary outcomes
 #' observations <- sample(0:1, size = 1000, replace = TRUE)
 #' # Calculate the Scaled Brier Score
-#' sbs(predictions, observations)
+#' sbrier(predictions, observations)
 sbrier <- function(preds, obs) {
   # Error checking
   assertthat::assert_that(length(preds) == length(obs),
