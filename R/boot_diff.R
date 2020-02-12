@@ -48,10 +48,10 @@ boot_diff <- function(preds1, preds2, obs, metric = NULL, reps = 1000, conf = 0.
   # Check for bad replicates
   if (any(is.na(boot_ests$t))) {
     warning(paste0(sum(is.na(boot_ests$t)),
-                 ' replicate(s) produced NaN. Proceeding with estimation.'))
+                 ' replicate(s) produced NaN. Proceeding with estimation with imputed medians.'))
     idx_na <- which(is.na(boot_ests$t))
 
-    boot_ests$t <- boot_ests$t[-idx_na]
+    boot_ests$t[idx_na] <- median(boot_ests$t[-idx_na])
   }
   # Recenter distribution to zero
   dist <- boot_ests$t - mean(boot_ests$t)

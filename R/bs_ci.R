@@ -39,6 +39,7 @@ bs_ci <- function(preds, obs, metric = NULL, reps = 1000, conf = 0.95,
   # Generate replicates
   boot_ests <- boot::boot(data = cbind(preds, obs), statistic = boot_stat(metric), R = reps)
   # Confirm variance in estimates
+  res <- NULL
   if (sd(boot_ests$t) == 0) {
     print('Warning: No variance in bootstrapped statistic. Returning sole value as confidence interval limits')
     res <- c(boot_ests$t, boot_ests$t)
