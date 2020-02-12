@@ -28,7 +28,7 @@ preds1 <- predict(m, type = 'response')
 sbs(preds1, dd$Balance == 0)
 
 # Get confidence interval of estimated Scaled Brier Score
-bs_ci(preds1, dd$Balance == 0, metric = sbs)
+bs_ci(preds1, dd$Balance == 0, metric = sbrier)
 
 # Make calibration plot for predictions
 results <- data.frame(obs = dd$Balance == 0,
@@ -46,6 +46,6 @@ results$model2 <- predict(m_rf, type = 'prob')[,2]
 calib_plot(obs ~ model1 + model2, data = results)
 
 # Estimate the difference in performance between the two models
-boot_diff(results$model1, results$model2, results$obs, metric = bs)
+boot_diff(results$model1, results$model2, results$obs, metric = brier)
 ```
 
