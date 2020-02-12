@@ -27,8 +27,8 @@ bs_ci <- function(preds, obs = NULL, metric = NULL, reps = 1000, conf = 0.95,
     assertthat::assert_that(length(preds) == length(obs), msg = 'preds and obs must be of equal length')
   }
   if (identical(metric, ent) && ! is.null(obs)) warning('Variable obs is ignored for entropy calculation.')
-  
-  
+
+
   # Seed
   if (! is.null(seed)) set.seed(seed)
 
@@ -59,7 +59,7 @@ bs_ci <- function(preds, obs = NULL, metric = NULL, reps = 1000, conf = 0.95,
     # Calculate bias-corrected standard bootstrap CIs
     boot_ci <- boot::boot.ci(boot_ests, conf, type = btype)
     # Return results
-    res <- c(boot_ci$basic[4], boot_ci$basic[5])
+    res <- c(boot_ci[[btype]][4], boot_ci[[btype]][5])
   }
 
   mname <- deparse(substitute(metric))
