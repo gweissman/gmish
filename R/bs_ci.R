@@ -17,7 +17,7 @@
 #' # Calculate the Confidence interval around the estimate of the Brier Score
 #' bs_ci(predictions, observations, metric = bs)
 
-bs_ci <- function(preds, obs = NULL, metric = NULL, reps = 1000, conf = 0.95,
+bs_ci <- function(preds, obs = NULL, metric, reps = 1000, conf = 0.95,
                   seed = NULL, btype = "basic", ...) {
   # Error checking
   assertthat::assert_that(all(preds>=0) & all(preds<=1), msg = 'all values of preds must fall between 0 and 1 (inclusive)')
