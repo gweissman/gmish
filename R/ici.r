@@ -1,5 +1,7 @@
 #' Calculate the integrated calibration index (ICI) for predicted probabilities against a binary outcome. Based on Austin PC, Steyerberg EW. The Integrated Calibration Index (ICI) and related metrics for quantifying the calibration of logistic regression models. Statistics in Medicine. 2019;1–15. https://doi.org/10.1002/sim.8281
 #'
+#' @import mgcv
+
 #' @export
 #'
 #' @param preds A vector of predicted probabilities.
@@ -20,7 +22,15 @@ ici <- function(preds, obs) {
                         msg = 'obs must only contain 0 and 1, and must contain both 0 and 1')
 
   # See appendix from Austin and Steyerberg
-  loess.calibrate <-loess(obs ~ preds)
-  p.calibrate <- predict (loess.calibrate, newdata = preds)
-  mean(abs(p.calibrate - preds))
+  if (length(preds) < 1000) {
+    loess.calibrate <- loess(obs ~ preds)
+    p.calibrate <- predict(loess.calibrate, newdata = preds)
+    return(mean(abs(p.calibrate - preds)))
+  } else {
+    message('With at least 1000 observations, using mgcv::gam instead of loess to calculate ICI.')
+    # Uses same smoothing as geom_smooth in ggplot2
+    gam.calibrate <- gam(obs ~ s(preds, bs = 'cs'), method = 'REML')
+    p.calibrate <- predict(gam.calibrate)
+    return(mean(abs(p.calibrate - preds)))
+  }
 }
