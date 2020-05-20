@@ -74,8 +74,8 @@ boot_diff <- function(preds1, preds2, obs, metric = NULL, reps = 1000, conf = 0.
   mname <- deparse(substitute(metric))
   names(res) <- c(paste0(mname, '_diff_obs'),
                   paste0(mname, '_diff_pval'),
-                  paste0(mname, '_diff_ci_', (1-conf)/2, '%'),
-                  paste0(mname, '_diff_ci_', conf + (1-conf)/2, '%'))
+                  paste0(mname, '_diff_ci_', (1-conf)/2),
+                  paste0(mname, '_diff_ci_', conf + (1-conf)/2))
   return(res)
 }
 
