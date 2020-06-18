@@ -3,6 +3,7 @@
 export(boot_diff)
 export(brier)
 export(bs_ci)
+export(bvd)
 export(calib_plot)
 export(cstat)
 export(ent)
