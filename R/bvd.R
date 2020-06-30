@@ -1,4 +1,4 @@
-#' Decompose the prediction error into bias and variance components
+#' Decompose the prediction error (mean-squared error) into bias and variance components
 #' @export
 #'
 #' @param preds A vector of predicted probabilities.
