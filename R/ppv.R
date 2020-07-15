@@ -20,6 +20,6 @@ ppv <- function(preds, obs, thresh = 0.5) {
                           msg = 'preds and obs must be of equal length')
   assertthat::are_equal(sort(unique(obs)), c(0,1),
                         msg = 'obs must only contain 0 and 1, and must contain both 0 and 1')
-  mean(preds[obs >= thresh] == 1)
+  mean(obs[preds >= thresh] == 1)
 }
 
