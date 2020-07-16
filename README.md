@@ -6,12 +6,12 @@ A collection of miscellaneous functions for data wrangling and predictive modeli
 
 ```{r}
 install.packages('devtools')
-devtools::install_github("gweissman/gmish")
+remotes::install_github("gweissman/gmish")
 ```
 
 # Example usage
 
-Predict survival aboard the Titanic.
+Predict who keeps a zero credit balance.
 
 ```{r}
 # Prepare the data
