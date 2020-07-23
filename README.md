@@ -11,13 +11,14 @@ remotes::install_github("gweissman/gmish")
 
 # Example usage
 
-Predict who keeps a zero credit balance.
+Try to predict the penguin species. 
 
 ```{r}
 # Prepare the data
 dd <- palmerpenguins::penguins
 dd <- dd[complete.cases(dd),]
 head(dd)
+
 # Build a model
 m <- glm(species == 'Adelie' ~ island + bill_length_mm + flipper_length_mm + body_mass_g, 
           data = dd,   family = binomial)
