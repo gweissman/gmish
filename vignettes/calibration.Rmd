@@ -1,10 +1,11 @@
 ---
+title: "Introduction to calibration with gmish"
 author: "Gary Weissman"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEngine{knitr::knitr}
-  %\VignetteIndexEntry{Title of your vignette}
+  %\VignetteIndexEntry{Visualizing calibration}
   %\usepackage[UTF-8]{inputenc}
 ---
 
