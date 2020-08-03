@@ -2,7 +2,7 @@
 % Please edit documentation in R/bvd.R
 \name{bvd}
 \alias{bvd}
-\title{Decompose the prediction error into bias and variance components}
+\title{Decompose the prediction error (mean-squared error) into bias and variance components}
 \usage{
 bvd(preds, obs)
 }
@@ -17,7 +17,7 @@ bvd(preds, obs)
 `variance` given by  \deqn{\frac{1}{N} \sum (\frac{1}{N} \sum(\hat y)) - \hat y)^2}
 }
 \description{
-Decompose the prediction error into bias and variance components
+Decompose the prediction error (mean-squared error) into bias and variance components
 }
 \examples{
 # Generate some predictions

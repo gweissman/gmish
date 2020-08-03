@@ -2,7 +2,7 @@
 % Please edit documentation in R/calib_plot.R
 \name{calib_plot}
 \alias{calib_plot}
-\title{Produce a calibration plot for a set of predixcted probabilities for a binary classifer.}
+\title{Produce a calibration plot for a set of predicted probabilities for a binary classifier.}
 \usage{
 calib_plot(form, data, cuts = 10, refline = TRUE, smooth = FALSE, rug = FALSE)
 }
@@ -13,14 +13,14 @@ calib_plot(form, data, cuts = 10, refline = TRUE, smooth = FALSE, rug = FALSE)
 
 \item{cuts}{The number of bins of probabilities. Default = 10.}
 
-\item{refline}{Whether or not to include a 45 degree reference line. Defailt = TRUE.}
+\item{refline}{Whether or not to include a 45 degree reference line. Default = TRUE.}
 
 \item{smooth}{Whether or not to include a smoothed line for each models' probabilities. Default = FALSE.}
 
-\item{rug}{Whether or not to include a rug plot of the observed probabilities. Usually works best with only one model. Defailt = FALSE.}
+\item{rug}{Whether or not to include a rug plot of the observed probabilities. Usually works best with only one model. Default = FALSE.}
 }
 \description{
-Produce a calibration plot for a set of predixcted probabilities for a binary classifer.
+Produce a calibration plot for a set of predicted probabilities for a binary classifier.
 }
 \examples{
 m1 <- glm(mpg > 20 ~ cyl + disp + hp, family = 'binomial', data = mtcars)
