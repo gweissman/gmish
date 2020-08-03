@@ -5,7 +5,7 @@ A collection of miscellaneous functions for data wrangling and predictive modeli
 # Install gmish
 
 ```{r}
-install.packages('devtools')
+install.packages('remotes')
 remotes::install_github("gweissman/gmish")
 ```
 
