@@ -5,19 +5,20 @@
 #'
 #' @param form A formula where the left-hand side is the variable representing the observed outcome, 0 or 1, and the right-hand side represents the column names of the different model probabilities.
 #' @param data A data frame that contains at least two columns, one of which is the observed outcome and the others that are predicted probabilities.
+#' @param refline Whether or not to include a 45 degree reference line. Default = TRUE.
+#'
 #' @examples
 #' library(ranger)
 #' library(palmerpenguins)
 #' pp <- penguins[complete.cases(penguins),]
-#' m1 <- ranger(species == 'Adelie' ~ island + bill_length_mm + flipper_length_mm + body_mass_g + sex,
+#' m1 <- ranger(species == 'Gentoo' ~ island + bill_length_mm + flipper_length_mm + body_mass_g + sex,
 #'       data = pp, probability = TRUE)
 #' p_obj <- predict(m1, data = pp)
-
 #' results <- data.frame(preds_m1 = p_obj$predictions[,2],
-#'                        obs = pp$species == 'Adelie')
-#' pr_plot(obs ~ preds_m1, data = results)
+#'                        obs = pp$species == 'Gentoo')
+#' roc_plot(obs ~ preds_m1, data = results)
 
-pr_plot <- function(form, data) {
+roc_plot <- function(form, data, refline = TRUE) {
 
   data <- as.data.table(data)
   # Identify vars
@@ -28,16 +29,18 @@ pr_plot <- function(form, data) {
   data[, intervals := seq(0, 1, length.out = nrow(data))]
   dt <- lapply(.mods, function(m) {
     data[, .(Model = m,
-                                   Recall = sapply(intervals, function(ii) sens(get(m), get(.y), thresh = ii)),
-                                   Precision = sapply(intervals, function(ii) ppv(get(m), get(.y), thresh = ii)))]
-    })
+             Sensitivity = sapply(intervals, function(ii) sens(get(m), get(.y), thresh = ii)),
+             `1 - Specificity` = sapply(intervals, function(ii) 1 - spec(get(m), get(.y), thresh = ii)))]
+  })
 
   dt_all <- rbindlist(dt)
-  p <- ggplot(dt_all, aes(Recall, Precision, color = Model)) +
+  p <- ggplot(dt_all, aes(`1 - Specificity`, Sensitivity, color = Model)) +
     geom_point() + geom_line() +
     xlim(0, 1) + ylim(0, 1) +
     theme_bw() +
     coord_fixed()
+
+  if (refline) p <- p + geom_abline(slope = 1, intercept = 0, size = 0.5, color = 'lightgray')
 
   return(p)
 }
