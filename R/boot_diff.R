@@ -66,7 +66,7 @@ boot_diff <- function(preds1, preds2, obs, metric = NULL, reps = 1000, conf = 0.
   obs_diff <- metric(preds2, obs) - metric(preds1, obs)
 
   # Get CI of difference
-  boot_ci <- boot::boot.ci(boot_ests, conf, type = 'basic')
+  boot_ci <- boot::boot.ci(boot_ests, conf, type = 'basic', parallel = 'multicore', ncpus = parallel::detectCores())
 
   # Return results
   res <- c(obs_diff, empiric_pval(dist, obs_diff),
