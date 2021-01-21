@@ -48,8 +48,12 @@ bs_ci <- function(preds, obs = NULL, metric = NULL, reps = 1000, conf = 0.95,
     }
   }
 
+  # Protect cores when checking packages
+  chk <- Sys.getenv("_R_CHECK_LIMIT_CORES_", "")
+  num_workers <- ifelse(nzchar(chk) && chk == "TRUE", 2L, parallel::detectCores())
+
   # Generate replicates
-  boot_ests <- boot::boot(data = cbind(preds, obs), statistic = boot_stat(metric), R = reps, parallel = 'multicore', ncpus = parallel::detectCores())
+  boot_ests <- boot::boot(data = cbind(preds, obs), statistic = boot_stat(metric), R = reps, parallel = 'multicore', ncpus = num_workers)
   # Confirm variance in estimates
   res <- NULL
   if (sd(boot_ests$t) == 0) {
