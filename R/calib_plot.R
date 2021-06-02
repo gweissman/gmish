@@ -42,7 +42,7 @@ p <- ggplot(dt_all, aes(Predicted, Observed, color = Model)) +
   theme_bw() +
   coord_fixed()
 
-if (refline) p <- p + geom_abline(slope = 1, intercept = 0, size = 0.5, color = 'lightgray')
+if (refline) p$layers <- c(geom_abline(slope = 1, intercept = 0, size = 0.5, color = 'lightgray'), p$layers)
 
 if (rug) {
   dt_preds <- data[, mods, with = FALSE]
