@@ -25,8 +25,7 @@ pr_plot <- function(form, data) {
   .mods <- all.vars(form)[-1]
 
   # determine number of intervals
-  interval_count <- min(nrow(data), 1000)
-  data[, intervals := seq(0, 1, length.out = interval_count)]
+  intervals <- seq(0,1, length.out = min(nrow(data), 1000))
   dt <- lapply(.mods, function(m) {
     data[, .(Model = m,
                                    Recall = sapply(intervals, function(ii) sens(get(m), get(.y), thresh = ii)),

@@ -26,7 +26,7 @@ roc_plot <- function(form, data, refline = TRUE) {
   .mods <- all.vars(form)[-1]
 
   # determine number of intervals
-  data[, intervals := seq(0, 1, length.out = nrow(data))]
+  intervals <- seq(0,1, length.out = min(nrow(data), 1000))
   dt <- lapply(.mods, function(m) {
     data[, .(Model = m,
              Sensitivity = sapply(intervals, function(ii) sens(get(m), get(.y), thresh = ii)),
