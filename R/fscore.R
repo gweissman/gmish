@@ -17,5 +17,5 @@ fscore <- function(preds, obs, beta = 1, thresh = 0.5) {
   prec <- ppv(preds, obs, thresh)
   rec <- sens(preds, obs, thresh)
 
-  1 + beta^2 * (prec * rec) / ((beta^2 * prec) + rec)
+  (1 + beta^2) * (prec * rec) / ((beta^2 * prec) + rec)
 }
