@@ -2,7 +2,6 @@
 #' @export
 #' @import ggplot2
 #' @import data.table
-#' @importFrom stats binom.test
 #' @importFrom Hmisc binconf
 
 #'
@@ -57,8 +56,8 @@ mc_calib_plot <- function(form, data, cuts = 10, refline = TRUE,
   if (refline) p <- p + geom_abline(slope = 1, intercept = 0, size = 0.5, color = 'lightgray')
 
   if (rug) {
-    dt_preds <- data[, mods, with = FALSE]
-    dt_preds_melt <- melt(dt_preds, measure.vars = mods)
+    dt_preds <- data[, .mods, with = FALSE]
+    dt_preds_melt <- melt(dt_preds, measure.vars = .mods)
     p <- p + geom_rug(data = dt_preds_melt, aes(x = value, color = variable),
                       sides = 'b', inherit.aes = FALSE)
   }

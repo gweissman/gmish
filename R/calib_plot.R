@@ -2,7 +2,6 @@
 #' @export
 #' @import ggplot2
 #' @import data.table
-#' @importFrom stats binom.test
 #' @importFrom Hmisc binconf
 #'
 #' @param form A formula where the left-hand side is the variable representing the observed outcome, 0 or 1, and the right-hand side represents the column names of the different model probabilities.
@@ -46,8 +45,8 @@ p <- ggplot(dt_all, aes(Predicted, Observed, color = Model)) +
 if (refline) p$layers <- c(geom_abline(slope = 1, intercept = 0, size = 0.5, color = 'lightgray'), p$layers)
 
 if (rug) {
-  dt_preds <- data[, mods, with = FALSE]
-  dt_preds_melt <- melt(dt_preds, measure.vars = mods)
+  dt_preds <- data[, .mods, with = FALSE]
+  dt_preds_melt <- melt(dt_preds, measure.vars = .mods)
   p <- p + geom_rug(data = dt_preds_melt, aes(x = value, color = variable),
                     sides = 'b', inherit.aes = FALSE)
 }
