@@ -17,7 +17,7 @@
 #'                        obs = pp$species == 'Adelie')
 #' pr_plot(obs ~ preds_m1, data = results)
 
-pr_plot <- function(form, data) {
+pr_plot <- function(form, data, max_intervals = 1000) {
 
   data <- as.data.table(data)
   # Identify vars
@@ -25,7 +25,7 @@ pr_plot <- function(form, data) {
   .mods <- all.vars(form)[-1]
 
   # determine number of intervals
-  intervals <- seq(0,1, length.out = min(nrow(data), 1000))
+  intervals <- seq(0,1, length.out = min(nrow(data), max_intervals))
   dt <- lapply(.mods, function(m) {
     data[, .(Model = m,
                                    Recall = sapply(intervals, function(ii) sens(get(m), get(.y), thresh = ii)),
