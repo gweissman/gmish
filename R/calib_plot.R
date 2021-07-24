@@ -3,6 +3,7 @@
 #' @import ggplot2
 #' @import data.table
 #' @importFrom stats binom.test
+#' @importFrom Hmisc binconf
 #'
 #' @param form A formula where the left-hand side is the variable representing the observed outcome, 0 or 1, and the right-hand side represents the column names of the different model probabilities.
 #' @param data A data frame that contains at least two columns, one of which is the observed outcome and the others that are predicted probabilities.
@@ -30,8 +31,8 @@ calib_plot <- function(form, data, cuts = 10, refline = TRUE,
                                               .(Model = m,
                                                 Predicted = mean(get(m)),
                                                 Observed = mean(get(.y)),
-                                                ci_lo = binom.test(sum(get(.y)),.N)$conf.int[1],
-                                                ci_hi = binom.test(sum(get(.y)),.N)$conf.int[2]),
+                                                ci_lo = binconf(sum(get(.y)),.N)[2],
+                                                ci_hi = binconf(sum(get(.y)),.N)[3]),
                                               by = bin]
   })
 dt_all <- rbindlist(dt)

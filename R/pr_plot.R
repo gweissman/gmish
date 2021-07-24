@@ -5,6 +5,8 @@
 #'
 #' @param form A formula where the left-hand side is the variable representing the observed outcome, 0 or 1, and the right-hand side represents the column names of the different model probabilities.
 #' @param data A data frame that contains at least two columns, one of which is the observed outcome and the others that are predicted probabilities.
+#' @param max_intervals The maximum number of thresholds to evaluate. Default = 1000.
+#'
 #' @examples
 #' library(ranger)
 #' library(palmerpenguins)

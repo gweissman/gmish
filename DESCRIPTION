@@ -2,7 +2,7 @@ Package: gmish
 Type: Package
 Title: Miscellaneous Functions for Predictive Modeling
 Version: 0.1.0
-Imports: assertthat, boot, data.table, ggplot2, mgcv
+Imports: assertthat, boot, data.table, ggplot2, mgcv, Hmisc
 Suggests: knitr, rmarkdown, markdown
 Depends: randomForest, ranger, palmerpenguins
 Author: Gary Weissman

@@ -4,7 +4,7 @@
 \alias{roc_plot}
 \title{Produce a precision-recall plot for a set of predicted probabilities for a binary classifier.}
 \usage{
-roc_plot(form, data, refline = TRUE)
+roc_plot(form, data, refline = TRUE, max_intervals = 1000)
 }
 \arguments{
 \item{form}{A formula where the left-hand side is the variable representing the observed outcome, 0 or 1, and the right-hand side represents the column names of the different model probabilities.}
@@ -12,6 +12,8 @@ roc_plot(form, data, refline = TRUE)
 \item{data}{A data frame that contains at least two columns, one of which is the observed outcome and the others that are predicted probabilities.}
 
 \item{refline}{Whether or not to include a 45 degree reference line. Default = TRUE.}
+
+\item{max_intervals}{The maximum number of thresholds to evaluate. Default = 1000.}
 }
 \description{
 Produce a precision-recall plot for a set of predicted probabilities for a binary classifier.

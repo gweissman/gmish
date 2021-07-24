@@ -3,6 +3,8 @@
 #' @import ggplot2
 #' @import data.table
 #' @importFrom stats binom.test
+#' @importFrom Hmisc binconf
+
 #'
 #' @param form A formula where the left-hand side is the set variable representing the observed outcomes for each class, 0 or 1. The right-hand side represents the column names of the different class probabilities. The names of the columns don't matter to the model, but the order of the observed (on the left) and predicted (on the right) should align.
 #' @param data A data frame that contains one observed and one predicted column for each class.
@@ -39,8 +41,8 @@ mc_calib_plot <- function(form, data, cuts = 10, refline = TRUE,
                                                                .(Class = .mods[m],
                                                                  Predicted = mean(get(.mods[m])),
                                                                  Observed = mean(get(.y[m])),
-                                                                 ci_lo = binom.test(sum(get(.y[m])),.N)$conf.int[1],
-                                                                 ci_hi = binom.test(sum(get(.y[m])),.N)$conf.int[2]),
+                                                                 ci_lo = binconf(sum(get(.y[m])),.N)[2],
+                                                                 ci_hi = binconf(sum(get(.y[m])),.N)[3]),
                                                                by = bin]
   })
 

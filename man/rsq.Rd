@@ -22,6 +22,6 @@ Calculate the R^2 of a model for predicted probabilities against a binary outcom
 predictions <- runif(1000)
 # Generate some binary outcomes
 observations <- sample(0:1, size = 1000, replace = TRUE)
-# Calculate the Integrated Calibration Index
+# Calculate the R^2
 rsq(predictions, observations)
 }
