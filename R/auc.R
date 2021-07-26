@@ -31,15 +31,19 @@ auc <- function(preds, obs, curve = c('roc', 'pr'), max_intervals = 1000) {
     spec_list <- sapply(intervals, function(th) spec(preds, obs, thresh = th))
     roc_fn <- approxfun(1 - spec_list, sens_list, ties = 'mean', n = length(intervals))
     int_result <- integrate(roc_fn, 0, 1, subdivisions = length(intervals))
-    results_vec <- c(results_vec, int_result$value)
+    results_vec <- c(results_vec, c('roc' = int_result$value))
   }
 
   # AUC PRC
   if ('pr' %in% curve) {
     ppv_list <- sapply(intervals, function(th) ppv(preds, obs, thresh = th))
     pr_fn <- approxfun(sens_list, ppv_list, ties = 'mean', n = length(intervals))
-    int_result <- integrate(pr_fn, 0, 1, subdivisions = length(intervals))
-    results_vec <- c(results_vec, int_result$value)
+    range_check_df <- data.frame(x = seq(0,1, length.out = length(intervals)))
+    range_check_df$y <- pr_fn(range_check_df$x)
+    x0 <- min(na.omit(range_check_df)$x)
+    x1 <- max(na.omit(range_check_df)$x)
+    int_result <- integrate(pr_fn, x0, x1, subdivisions = length(intervals))
+    results_vec <- c(results_vec, c('pr' = int_result$value))
   }
   # Return results
   if (is.null(results_vec)) {
