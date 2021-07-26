@@ -20,5 +20,9 @@ sens <- function(preds, obs, thresh = 0.5) {
                           msg = 'preds and obs must be of equal length')
   assertthat::are_equal(sort(unique(obs)), c(0,1),
                         msg = 'obs must only contain 0 and 1, and must contain both 0 and 1')
-  mean((preds[obs==1] >= thresh) == obs[obs==1])
+
+  TPs <- tpc(preds, obs, thresh = thresh)
+  FNs <- fnc(preds, obs, thresh = thresh)
+
+  return(TPs / (TPs + FNs))
 }
