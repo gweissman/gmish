@@ -58,7 +58,7 @@ bs_ci <- function(preds, obs = NULL, metric = NULL, reps = 1000, conf = 0.95,
   res <- NULL
   if (sd(boot_ests$t) == 0) {
     print('Warning: No variance in bootstrapped statistic. Returning sole value as confidence interval limits')
-    res <- c(boot_ests$t, boot_ests$t)
+    res <- c(boot_ests$t[1], boot_ests$t[1])
   } else {
     # Calculate bias-corrected standard bootstrap CIs
     boot_ci <- boot::boot.ci(boot_ests, conf, type = btype)
