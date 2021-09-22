@@ -29,8 +29,14 @@ ici <- function(preds, obs) {
   } else {
     message('With at least 1000 observations, using mgcv::gam instead of loess to calculate ICI.')
     # Uses same smoothing as geom_smooth in ggplot2
-    gam.calibrate <- gam(obs ~ s(preds, bs = 'cs'), method = 'REML')
-    p.calibrate <- predict(gam.calibrate)
-    return(mean(abs(p.calibrate - preds)))
+    tryCatch({
+      gam.calibrate <- gam(obs ~ s(preds, bs = 'cs'), method = 'REML')
+      p.calibrate <- predict(gam.calibrate)
+      return(mean(abs(p.calibrate - preds)))
+    },
+    error = function(err) {
+      print('Insufficient unique predictions to fit gam. Returning NAs.')
+      return(NA)
+    })
   }
 }
