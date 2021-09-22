@@ -56,13 +56,13 @@ bs_ci <- function(preds, obs = NULL, metric = NULL, reps = 1000, conf = 0.95,
   boot_ests <- boot::boot(data = cbind(preds, obs), statistic = boot_stat(metric), R = reps, parallel = 'multicore', ncpus = num_workers)
   # Confirm variance in estimates
   res <- NULL
-  if (sd(boot_ests$t) == 0) {
-    print('Warning: No variance in bootstrapped statistic. Returning sole value as confidence interval limits')
-    res <- c(boot_ests$t[1], boot_ests$t[1])
-  } else if (any(is.na(boot_ests$t))) {
+  if (any(is.na(boot_ests$t))) {
     print('Warning: Undefined variance in bootstrapped statistic. Returning NA as confidence interval limits')
     res <- c(NA, NA)
-    } else {
+  } else if (sd(boot_ests$t) == 0) {
+    print('Warning: No variance in bootstrapped statistic. Returning sole value as confidence interval limits')
+    res <- c(boot_ests$t[1], boot_ests$t[1])
+  }  else {
     # Calculate bias-corrected standard bootstrap CIs
     boot_ci <- boot::boot.ci(boot_ests, conf, type = btype)
     # Return results
