@@ -55,8 +55,8 @@ if (smooth) p <- p + geom_smooth(method = 'loess', se = FALSE,
 if (rug) {
   dt_preds <- data[, .mods, with = FALSE]
   dt_preds_melt <- melt(dt_preds, measure.vars = .mods)
-  dist_plot <- ggplot(dt_preds_melt, aes(x = value, color = variable)) +
-    geom_histogram(fill = 'black', bins = 100) +
+  dist_plot <- ggplot(dt_preds_melt, aes(x = value, fill = variable, color = variable)) +
+    geom_histogram(bins = 100) +
     xlab('Predicted probability') +
     scale_y_continuous('', n.breaks = 2) +
     theme_minimal() +
