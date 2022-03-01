@@ -2,6 +2,7 @@
 #' @export
 #' @import ggplot2
 #' @import data.table
+#' @import patchwork
 #' @importFrom Hmisc binconf
 #'
 #' @param form A formula where the left-hand side is the variable representing the observed outcome, 0 or 1, and the right-hand side represents the column names of the different model probabilities.
@@ -16,14 +17,15 @@
 #' calib_plot(outcome ~ lr_1, data = results, cuts = 5)
 
 calib_plot <- function(form, data, cuts = 10, refline = TRUE,
-                       smooth = FALSE, rug = FALSE) {
+                       smooth = FALSE, fitline = FALSE,
+                       rug = FALSE) {
 
   data <- as.data.table(data)
   # Identify vars
   .y <- all.vars(form)[1]
   .mods <- all.vars(form)[-1]
 
-
+# Inspired by Darren Dahly: https://darrendahly.github.io/post/homr/
   dt <- lapply(.mods, function(m) {
       data[,c(m,.y), with = FALSE][, bin := cut(get(m), breaks = cuts,
                                    labels = FALSE)][,
@@ -36,21 +38,37 @@ calib_plot <- function(form, data, cuts = 10, refline = TRUE,
   })
 dt_all <- rbindlist(dt)
 p <- ggplot(dt_all, aes(Predicted, Observed, color = Model)) +
-  geom_point() + geom_line() +
-  geom_errorbar(aes(ymin = ci_lo, ymax = ci_hi), width = 0.03) +
+  geom_point(size = 0.3) + geom_line(size = 0.3) +
+  geom_errorbar(aes(ymin = ci_lo, ymax = ci_hi), width = 0.03, size = 0.3) +
   xlim(0, 1) + ylim(0, 1) +
   theme_bw() +
   coord_fixed()
 
 if (refline) p$layers <- c(geom_abline(slope = 1, intercept = 0, size = 0.5, color = 'lightgray'), p$layers)
 
+if (fitline) p <- p + geom_smooth(method = 'lm', se = FALSE,
+                                 lty = 5, formula = y ~ -1 + x, size = 0.3)
+
+if (smooth) p <- p + geom_smooth(method = 'loess', se = FALSE,
+                                  lty = 10, formula = y ~ -1 + x, size = 0.3)
+
 if (rug) {
   dt_preds <- data[, .mods, with = FALSE]
   dt_preds_melt <- melt(dt_preds, measure.vars = .mods)
-  p <- p + geom_rug(data = dt_preds_melt, aes(x = value, color = variable),
-                    sides = 'b', inherit.aes = FALSE)
+  dist_plot <- ggplot(dt_preds_melt, aes(x = value, color = variable)) +
+    geom_histogram(fill = 'black', bins = 100) +
+    xlab('Predicted probability') +
+    scale_y_continuous('', n.breaks = 2) +
+    theme_minimal() +
+    theme(legend.position = 'none')
+
+  p <- p + xlab('')
+
+  p <- p + dist_plot +
+    plot_layout(ncol = 1,
+                widths = unit(c(6,6), c('cm', 'cm')),
+                heights = unit(c(6,1), c('cm', 'cm')))
 }
 
-if (smooth) p <- p + geom_smooth(method = 'lm', lty = 5, size = 0.3)
 return(p)
 }

@@ -8,7 +8,9 @@
 #' # Generate some predictions
 #' predictions <- data.frame(p1 = runif(1000), p2 = runif(1000), p3 = runif(1000))
 #' # Generate some binary outcomes
-#' observations <- data.frame(o1 = sample(0:1, size = 1000, replace = TRUE), o2 = sample(0:1, size = 1000, replace = TRUE), o3 = sample(0:1, size = 1000, replace = TRUE))
+#' observations <- data.frame(o1 = sample(0:1, size = 1000, replace = TRUE),
+#' o2 = sample(0:1, size = 1000, replace = TRUE),
+#' o3 = sample(0:1, size = 1000, replace = TRUE))
 #' # Calculate the multiclass Brier Score
 #' mc_brier(predictions, observations)
 mc_brier <- function(preds, obs) {
