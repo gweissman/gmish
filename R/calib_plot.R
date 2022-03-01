@@ -2,14 +2,15 @@
 #' @export
 #' @import ggplot2
 #' @import data.table
-#' @import patchwork
+#' @importFrom patchwork plot_layout
 #' @importFrom Hmisc binconf
 #'
 #' @param form A formula where the left-hand side is the variable representing the observed outcome, 0 or 1, and the right-hand side represents the column names of the different model probabilities.
 #' @param data A data frame that contains at least two columns, one of which is the observed outcome and the others that are predicted probabilities.
 #' @param cuts The number of bins of probabilities. Default = 10.
 #' @param refline Whether or not to include a 45 degree reference line. Default = TRUE.
-#' @param smooth Whether or not to include a smoothed line for each models' probabilities. Default = FALSE.
+#' @param smooth Whether or not to include a smoothed loess curve for each models' probabilities. Default = FALSE.
+#' @param fitline Whether or not to include a best-fit line for each models' probabilities. Default = FALSE.
 #' @param rug Whether or not to include a rug plot of the observed probabilities. Usually works best with only one model. Default = FALSE.
 #' @examples
 #' m1 <- glm(mpg > 20 ~ cyl + disp + hp, family = 'binomial', data = mtcars)
