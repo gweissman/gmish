@@ -23,7 +23,9 @@ calib_plot(
 
 \item{refline}{Whether or not to include a 45 degree reference line. Default = TRUE.}
 
-\item{smooth}{Whether or not to include a smoothed line for each models' probabilities. Default = FALSE.}
+\item{smooth}{Whether or not to include a smoothed loess curve for each models' probabilities. Default = FALSE.}
+
+\item{fitline}{Whether or not to include a best-fit line for each models' probabilities. Default = FALSE.}
 
 \item{rug}{Whether or not to include a rug plot of the observed probabilities. Usually works best with only one model. Default = FALSE.}
 }

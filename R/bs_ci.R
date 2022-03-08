@@ -1,5 +1,6 @@
 #' Calculate the bias-corrected, basic bootstrapped confidence interval for a given performance metric.
 #' @export
+#' @import boot
 #'
 #' @param preds A vector of predicted probabilities.
 #' @param obs A vector containing the observed binary outcomes (0 or 1).
