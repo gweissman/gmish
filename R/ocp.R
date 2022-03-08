@@ -32,7 +32,7 @@ ocp <- function(mwf, form, data, metric = sbrier, reps = 250, get_probs = predic
         idx <- sample(nrow(dd), replace = TRUE)
         # Step 3: Construct a model and determine apparent performance
         boot_model <- mwf(form, dd[idx])
-        boot_preds <- get_probs(boot_model, dd)
+        boot_preds <- get_probs(boot_model, dd[idx])
         perf_apparent <- metric(boot_preds, dd[idx, get(.y)])
         # Step 4: Apply model to original sample and determine test performance
         boot_orig_preds <- get_probs(boot_model, dd)
