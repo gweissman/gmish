@@ -15,7 +15,8 @@
 #' ocp(glm_mwf, form = mpg20 ~ cyl + disp + hp, data = mymtcars,
 #'      get_probs = \(m, d) predict(m, newdata = d, type = 'response'))
 #'
-ocp <- function(mwf, form, data, metric = sbrier, reps = 250, get_probs = predict) {
+ocp <- function(mwf, form, data, metric = sbrier, reps = 250,
+                get_probs = predict, event = '1') {
 
   # Identify vars
   .y <- all.vars(form)[1]
@@ -24,7 +25,7 @@ ocp <- function(mwf, form, data, metric = sbrier, reps = 250, get_probs = predic
   # Step 1: Determine performance from model on entire dataset
   orig_model <- mwf(form, dd)
   orig_preds <- get_probs(orig_model, dd)
-  perf_orig <- metric(orig_preds, dd[, get(.y)])
+  perf_orig <- metric(orig_preds, dd[, get(.y)] == event)
 
   # Step 6: Repeat this many times...
   optimism_list <- sapply(1:reps, \(r) {
@@ -33,10 +34,10 @@ ocp <- function(mwf, form, data, metric = sbrier, reps = 250, get_probs = predic
         # Step 3: Construct a model and determine apparent performance
         boot_model <- mwf(form, dd[idx])
         boot_preds <- get_probs(boot_model, dd[idx])
-        perf_apparent <- metric(boot_preds, dd[idx, get(.y)])
+        perf_apparent <- metric(boot_preds, dd[idx, get(.y)] == event)
         # Step 4: Apply model to original sample and determine test performance
         boot_orig_preds <- get_probs(boot_model, dd)
-        perf_test <- metric(boot_preds, dd[, get(.y)])
+        perf_test <- metric(boot_preds, dd[, get(.y)] == event)
         # Step 5: Calculate optimism
         optimism <- perf_apparent - perf_test
         return(optimism)
