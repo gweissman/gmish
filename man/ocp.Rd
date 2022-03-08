@@ -4,7 +4,7 @@
 \alias{ocp}
 \title{Calculate the optimism-corrected performance of a model using bootstrap validation. Approach from Steyerberg EW. Clinical Prediction Models, 2nd Edition. pp 106--107}
 \usage{
-ocp(mwf, form, data, metric = sbrier, reps = 250, ...)
+ocp(mwf, form, data, metric = sbrier, reps = 250, get_probs = predict)
 }
 \arguments{
 \item{mwf}{A function that represents the entire modeling workflow. Should take arguments ``form` and `data` fit a model then return it to make predictions.}
@@ -13,11 +13,11 @@ ocp(mwf, form, data, metric = sbrier, reps = 250, ...)
 
 \item{data}{A data frame including all variables in `form`.}
 
+\item{metric}{A performance metric as function that takes (`preds`, `obs`) to calculate. Default = `sbrier`}
+
 \item{reps}{The number of bootstrap replicates. Default = 250.}
 
-\item{...}{Additional arguments to make correct predictions, for example, `type = response` when needed}
-
-\item{metrics}{A performance metric as function that takes (`preds`, `obs`) to calculate. Default = `sbrier`}
+\item{get_probs}{A predict function to extract class probabilities. Default = `predict`}
 }
 \description{
 Calculate the optimism-corrected performance of a model using bootstrap validation. Approach from Steyerberg EW. Clinical Prediction Models, 2nd Edition. pp 106--107
@@ -26,6 +26,7 @@ Calculate the optimism-corrected performance of a model using bootstrap validati
 glm_mwf <- \(form, data) { glm(form, data = data, family = binomial) }
 mymtcars <- mtcars
 mymtcars$mpg20 <- mymtcars$mpg > 20
-ocp(glm_mwf, form = mpg20 ~ cyl + disp + hp, data = mymtcars, type = 'response')
+ocp(glm_mwf, form = mpg20 ~ cyl + disp + hp, data = mymtcars,
+     get_probs = \(m, d) predict(m, newdata = d, type = 'response'))
 
 }
