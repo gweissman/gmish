@@ -1,4 +1,7 @@
-#' Calculate the optimism-corrected performance of a model using bootstrap validation. Approach from Steyerberg EW. Clinical Prediction Models, 2nd Edition. pp 106--107
+#' Calculate the optimism-corrected performance of a model using bootstrap validation. 
+#'
+#' Approach originally from Harrell Jr, FE. Regression modeling strategies, 2nd Edition. Method as described in Steyerberg EW. Clinical Prediction Models, 2nd Edition. pp 106--107
+#' 
 #' @export
 #' @import data.table
 #'
