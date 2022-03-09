@@ -37,7 +37,7 @@ ocp <- function(mwf, form, data, metric = sbrier, reps = 250,
         perf_apparent <- metric(boot_preds, dd[idx, get(.y)] == event)
         # Step 4: Apply model to original sample and determine test performance
         boot_orig_preds <- get_probs(boot_model, dd)
-        perf_test <- metric(boot_preds, dd[, get(.y)] == event)
+        perf_test <- metric(boot_orig_preds, dd[, get(.y)] == event)
         # Step 5: Calculate optimism
         optimism <- perf_apparent - perf_test
         return(optimism)
