@@ -2,9 +2,17 @@
 % Please edit documentation in R/ocp.R
 \name{ocp}
 \alias{ocp}
-\title{Calculate the optimism-corrected performance of a model using bootstrap validation. Approach from Steyerberg EW. Clinical Prediction Models, 2nd Edition. pp 106--107}
+\title{Calculate the optimism-corrected performance of a model using bootstrap validation.}
 \usage{
-ocp(mwf, form, data, metric = sbrier, reps = 250, get_probs = predict)
+ocp(
+  mwf,
+  form,
+  data,
+  metric = sbrier,
+  reps = 250,
+  get_probs = predict,
+  event = "1"
+)
 }
 \arguments{
 \item{mwf}{A function that represents the entire modeling workflow. Should take arguments ``form` and `data` fit a model then return it to make predictions.}
@@ -20,7 +28,7 @@ ocp(mwf, form, data, metric = sbrier, reps = 250, get_probs = predict)
 \item{get_probs}{A predict function to extract class probabilities. Default = `predict`}
 }
 \description{
-Calculate the optimism-corrected performance of a model using bootstrap validation. Approach from Steyerberg EW. Clinical Prediction Models, 2nd Edition. pp 106--107
+Approach originally from Harrell Jr, FE. Regression modeling strategies, 2nd Edition. Method as described in Steyerberg EW. Clinical Prediction Models, 2nd Edition. pp 106--107
 }
 \examples{
 glm_mwf <- \(form, data) { glm(form, data = data, family = binomial) }
