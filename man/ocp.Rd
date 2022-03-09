@@ -26,6 +26,8 @@ ocp(
 \item{reps}{The number of bootstrap replicates. Default = 250.}
 
 \item{get_probs}{A predict function to extract class probabilities. Default = `predict`}
+
+\item{event}{The outcome class for an event, especially for factors. Default = `1`}
 }
 \description{
 Approach originally from Harrell Jr, FE. Regression modeling strategies, 2nd Edition. Method as described in Steyerberg EW. Clinical Prediction Models, 2nd Edition. pp 106--107
@@ -33,7 +35,7 @@ Approach originally from Harrell Jr, FE. Regression modeling strategies, 2nd Edi
 \examples{
 glm_mwf <- \(form, data) { glm(form, data = data, family = binomial) }
 mymtcars <- mtcars
-mymtcars$mpg20 <- mymtcars$mpg > 20
+mymtcars$mpg20 <- as.numeric(mymtcars$mpg > 20)
 ocp(glm_mwf, form = mpg20 ~ cyl + disp + hp, data = mymtcars,
      get_probs = \(m, d) predict(m, newdata = d, type = 'response'))
 

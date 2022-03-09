@@ -16,7 +16,7 @@ make_perf_df(
 
 \item{obs}{A vector containing the observed binary outcomes (0 or 1).}
 
-\item{metrics}{A list of function of the form f(preds, obs), e.g. `bs`}
+\item{metrics}{A list of names of functions as characters that are of the form f(preds, obs), e.g. "cstat"}
 
 \item{...}{Additional arguments for the particular metric or boot function, e.g. `thresh = 0.6`}
 }
