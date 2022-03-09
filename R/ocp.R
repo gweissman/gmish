@@ -1,7 +1,7 @@
-#' Calculate the optimism-corrected performance of a model using bootstrap validation. 
+#' Calculate the optimism-corrected performance of a model using bootstrap validation.
 #'
 #' Approach originally from Harrell Jr, FE. Regression modeling strategies, 2nd Edition. Method as described in Steyerberg EW. Clinical Prediction Models, 2nd Edition. pp 106--107
-#' 
+#'
 #' @export
 #' @import data.table
 #'
@@ -14,7 +14,7 @@
 #' @examples
 #' glm_mwf <- \(form, data) { glm(form, data = data, family = binomial) }
 #' mymtcars <- mtcars
-#' mymtcars$mpg20 <- mymtcars$mpg > 20
+#' mymtcars$mpg20 <- as.numeric(mymtcars$mpg > 20)
 #' ocp(glm_mwf, form = mpg20 ~ cyl + disp + hp, data = mymtcars,
 #'      get_probs = \(m, d) predict(m, newdata = d, type = 'response'))
 #'
