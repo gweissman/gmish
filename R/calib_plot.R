@@ -58,7 +58,7 @@ if (rug) {
   dt_preds_melt <- melt(dt_preds, measure.vars = .mods)
   dist_plot <- ggplot(dt_preds_melt, aes(x = value, fill = variable, color = variable)) +
     geom_histogram(bins = 100) +
-    xlab('Predicted probability') +
+    scale_x_continuous('Predicted probability', limits = c(0,1)) +
     scale_y_continuous('', n.breaks = 2) +
     theme_minimal() +
     theme(legend.position = 'none')
