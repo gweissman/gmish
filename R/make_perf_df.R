@@ -24,8 +24,8 @@ make_perf_df <- function(preds, obs, metrics = list(brier, sbrier, ici, lloss, c
 
   # Get list of function names passed to metrics list
   # This feels a bit hackish -- TODO: better way to do this?
-
-  metrics_list <- sapply(metrics, \(m) as.character(substitute(m)))
+  raw_call <- as.character(as.list(match.call())$metrics)
+  metrics_list <- raw_call[-1]
 
   # Loop through each metrics
   results_list <- lapply(metrics, function(mm) {
