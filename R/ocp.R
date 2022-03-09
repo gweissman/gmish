@@ -11,6 +11,7 @@
 #' @param metric A performance metric as function that takes (`preds`, `obs`) to calculate. Default = `sbrier`
 #' @param reps The number of bootstrap replicates. Default = 250.
 #' @param get_probs A predict function to extract class probabilities. Default = `predict`
+#' @param event The outcome class for an event, especially for factors. Default = `1`
 #' @examples
 #' glm_mwf <- \(form, data) { glm(form, data = data, family = binomial) }
 #' mymtcars <- mtcars
