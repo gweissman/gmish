@@ -4,7 +4,12 @@
 \alias{make_perf_df}
 \title{Take a list of performance metrics and return the observed estimate and 95\% confidence intervals based on 1000 bootstrap replicates in the form a data.frame.}
 \usage{
-make_perf_df(preds, obs, metrics = list(brier, sbrier, ici, lloss, cstat), ...)
+make_perf_df(
+  preds,
+  obs,
+  metrics = list("brier", "sbrier", "ici", "lloss", "cstat"),
+  ...
+)
 }
 \arguments{
 \item{preds}{A vector of predicted probabilities for the first model.}
@@ -24,5 +29,5 @@ preds <- runif(1000)
 # Generate some binary outcomes
 obs <- sample(0:1, size = 1000, replace = TRUE)
 # Calculate the Confidence interval around the estimate of the Brier Score
-make_perf_df(preds, obs, metrics = list(brier, cstat))
+make_perf_df(preds, obs, metrics = list('brier', 'cstat'))
 }
