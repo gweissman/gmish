@@ -1,4 +1,4 @@
-#' Produce a precision-recall plot for a set of predicted probabilities for a binary classifier.
+#' Produce a receiver operator characteristic plot for a set of predicted probabilities for a binary classifier.
 #' @export
 #' @import ggplot2
 #' @import data.table
