@@ -14,6 +14,9 @@ remotes::install_github("gweissman/gmish")
 Try to predict the penguin species. 
 
 ```{r}
+# Load the library
+library(gmish)
+
 # Prepare the data
 dd <- palmerpenguins::penguins
 dd <- dd[complete.cases(dd),]
