@@ -13,5 +13,5 @@
 #' # Calculate the true negative count
 #' tnc(predictions, observations)
 tnc <- function(preds, obs, thresh = 0.5) {
-  sum((preds[obs==0] < thresh) != obs[obs==0])
+  sum((preds[obs==0] < thresh))
 }

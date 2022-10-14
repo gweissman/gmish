@@ -13,5 +13,5 @@
 #' # Calculate the false negative count
 #' fnc(predictions, observations)
 fnc <- function(preds, obs, thresh = 0.5) {
-  sum(obs) - tpc(preds, obs, thresh = thresh)
+  sum((preds[obs == 1] < thresh))
 }
