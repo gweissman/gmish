@@ -13,5 +13,5 @@
 #' # Calculate the false positive count
 #' fpc(predictions, observations)
 fpc <- function(preds, obs, thresh = 0.5) {
-  sum(obs == 0) - tnc(preds, obs, thresh = thresh)
+  sum((preds[obs == 0] >= thresh))
 }

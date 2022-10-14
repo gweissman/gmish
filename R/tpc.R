@@ -13,5 +13,5 @@
 #' # Calculate the true positive count
 #' tpc(predictions, observations)
 tpc <- function(preds, obs, thresh = 0.5) {
-  sum((preds[obs==1] >= thresh) == obs[obs==1])
+  sum((preds[obs==1] >= thresh))
 }
