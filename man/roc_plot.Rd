@@ -2,7 +2,7 @@
 % Please edit documentation in R/roc_plot.R
 \name{roc_plot}
 \alias{roc_plot}
-\title{Produce a precision-recall plot for a set of predicted probabilities for a binary classifier.}
+\title{Produce a receiver operator characteristic plot for a set of predicted probabilities for a binary classifier.}
 \usage{
 roc_plot(form, data, refline = TRUE, max_intervals = 1000)
 }
@@ -16,7 +16,7 @@ roc_plot(form, data, refline = TRUE, max_intervals = 1000)
 \item{max_intervals}{The maximum number of thresholds to evaluate. Default = 1000.}
 }
 \description{
-Produce a precision-recall plot for a set of predicted probabilities for a binary classifier.
+Produce a receiver operator characteristic plot for a set of predicted probabilities for a binary classifier.
 }
 \examples{
 library(ranger)
