@@ -16,5 +16,5 @@
 #' nb(predictions, observations, p_t = 0.25)
 # Define weighted net benefit
 nb <- function(preds, obs, p_t, weight = 1) {
-  weight * tpc(preds, obs, thresh = p_t) / length(preds) + fpc(preds, obs, thresh = p_t) / length(preds) * p_t / (1 - p_t)
+  weight * tpc(preds, obs, thresh = p_t) / length(preds) - fpc(preds, obs, thresh = p_t) / length(preds) * p_t / (1 - p_t)
 }
