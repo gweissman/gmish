@@ -36,8 +36,13 @@ nb_plot <- function(form, data, treat_all = TRUE, treat_none = TRUE, omniscient 
   })
 
   if (treat_all) {
-    treat_all_dt <- data.table(Model = 'Treat all', p_t = seq(0,0.99,.01))
-    treat_all_dt[, net_benefit := mean(data[,get(.y)])  - (1 - mean(data[,get(.y)])) * p_t / (1 - p_t)]
+    treat_all_dt <- data.table(p_t = seq(0,0.99,.01))[,
+                                      .(Model = 'Treat all',
+                                        net_benefit = nb(1, # guess 1 for everyone
+                                                         data[,get(.y)],
+                                                         p_t = p_t,
+                                                         weight = weight)),
+                                      by = p_t]
     dt_list <- append(dt_list, list(treat_all_dt))
   }
 
