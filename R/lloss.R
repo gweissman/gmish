@@ -11,11 +11,12 @@
 #' observations <- sample(0:1, size = 1000, replace = TRUE)
 #' # Calculate the Brier Score
 #' lloss(predictions, observations)
-lloss <- function(preds, obs) {
+lloss <- function(preds, obs, eps = 1e-15) {
   # Error checking
   assertthat::assert_that(length(preds) == length(obs),
                           msg = 'preds and obs must be of equal length')
   assertthat::are_equal(sort(unique(obs)), c(0,1),
                         msg = 'obs must only contain 0 and 1, and must contain both 0 and 1')
-  - mean(obs * log(preds) + (1 - obs) * log(1 - preds))
+  preds_adj_eps <- pmax(pmin(preds, 1 - eps), eps)
+  - mean(obs * log(preds_adj_eps) + (1 - obs) * log(1 - preds_adj_eps))
 }
