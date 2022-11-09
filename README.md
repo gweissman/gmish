@@ -53,4 +53,10 @@ calib_plot(obs ~ model1 + model2, data = results, cuts = 4)
 # Estimate the difference in performance between the two models
 boot_diff(results$model1, results$model2, results$obs, metric = sbrier)
 ```
+# Guidance for contributors
 
+The `gmish` team welcomes code contributions in the form of pull requests. Guiding principles for accepting pull requests include identifying contributions that:
+
+1. Adds functionality that would be of broad interest without breaking existing interfaces.
+2. Corrects any errors (syntax, math, or other types of errors) in the current code.
+3. Maintains clean, concise, easy-to-read, and well documented source good.
