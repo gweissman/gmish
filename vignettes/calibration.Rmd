@@ -4,9 +4,9 @@ author: "Gary Weissman"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
+  %\VignetteEngine{knitr::knitr}
   %\VignetteIndexEntry{Visualizing calibration}
-  %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+  %\usepackage[UTF-8]{inputenc}
 ---
 
 # This will be a vignette for the calibration plot examples
@@ -29,53 +29,3 @@ res <- data.frame(obs = dd$exp, glm = p1, rf = p2)
 
 calib_plot(obs ~ glm + rf, res, cut = 10)
 ```
-
-```{r threshstats, warning=FALSE, message=FALSE}
-library(ggplot2)
-y <- dd$exp; yhat <- p2
-
-ts <- threshstats(y,yhat)
-
-df <- data.frame(yhat=rev(yhat[ts$op[ts$np]]),
-                 PPV=rev(ts$PPV), NNE=1/rev(ts$PPV),
-                 sensitivity=rev(ts$sensitivity))
-df <- df[-c((nrow(df)-125):nrow(df)),]
-```
-
-## Precision
-
-```{r PPV_v_yhat, fig.height = 6, fig.width = 6, fig.align = "center"}
-ggplot(df, aes(yhat, PPV)) +
-  geom_line() + xlim(0, 1) + ylim(0, 1) +
-  theme_bw() +
-  coord_fixed()
-```
-
-## NNE
-
-Number Needed to Evaluate one patient with outcome.
-
-```{r NNE_v_yhat,fig.height = 6, fig.width = 6, fig.align = "center"}
-ggplot(df, aes(yhat, NNE)) +
-  geom_line() + xlim(0, 1) +
-  theme_bw() 
-```
-
-## Sensitivity
-
-```{r sensitivity_v_yhat, fig.height = 6, fig.width = 6, fig.align = "center"}
-ggplot(df, aes(yhat, sensitivity)) +
-  geom_line() + xlim(0, 1) + ylim(0, 1) +
-  theme_bw() +
-  coord_fixed()
-
-```
-
-## NNE vs Sensitivity
-
-```{r NNE_v_sensitivity, fig.height = 6, fig.width = 6, fig.align = "center"}
-ggplot(df, aes(sensitivity, NNE)) +
-  geom_line() + xlim(0, 1) +
-  theme_bw() 
-```
-
