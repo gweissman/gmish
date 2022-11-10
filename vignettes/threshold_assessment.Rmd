@@ -1,6 +1,6 @@
 ---
-title: "Introduction to calibration with gmish"
-author: "Gary Weissman"
+title: "Threshold Assessment of Model Performance"
+author: "Liam O'Suilleabhaiun"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -26,15 +26,13 @@ m2 <- randomForest(as.factor(exp) ~ ., data = dd, ntrees = 200)
 p2 <- predict(m2, type = 'prob')[,2]
 
 res <- data.frame(obs = dd$exp, glm = p1, rf = p2)
-
-calib_plot(obs ~ glm + rf, res, cut = 10)
 ```
 
 ```{r threshstats, warning=FALSE, message=FALSE}
 library(ggplot2)
 y <- dd$exp; yhat <- p2
 
-ts <- threshstats(y,yhat)
+ts <- threshstats(preds=yhat,obs=y)
 
 df <- data.frame(yhat=rev(yhat[ts$op[ts$np]]),
                  PPV=rev(ts$PPV), NNE=1/rev(ts$PPV),

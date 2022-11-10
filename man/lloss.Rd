@@ -4,7 +4,7 @@
 \alias{lloss}
 \title{Calculate the Log Lossfor predicted probabilities against a binary outcome.}
 \usage{
-lloss(preds, obs)
+lloss(preds, obs, eps = 1e-15)
 }
 \arguments{
 \item{preds}{A vector of predicted probabilities.}

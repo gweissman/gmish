@@ -1,4 +1,4 @@
-yhat_thresh <- function(threshold, yhat) {
+thresh.yhat <- function(threshold, yhat) {
   N <- rep(NA,length(threshold)); names(N) <- threshold
   for(x in 1:length(threshold)){
     if(x == 1){
@@ -14,7 +14,7 @@ yhat_thresh <- function(threshold, yhat) {
   }
   return(N)
 }
-NNE_thresh <- function(threshold, PPV) {
+thresh.NNE <- function(threshold, PPV) {
   N <- rep(NA,length(threshold)); names(N) <- threshold
   for(x in 1:length(threshold)){
     if(x == 1){
@@ -32,7 +32,7 @@ NNE_thresh <- function(threshold, PPV) {
   }
   return(N)
 }
-PPV_thresh <- function(threshold, PPV) {
+thresh.PPV <- function(threshold, PPV) {
   N <- rep(NA,length(threshold)); names(N) <- threshold
   for(x in 1:length(threshold)){
     if(x == 1){
@@ -50,7 +50,7 @@ PPV_thresh <- function(threshold, PPV) {
   }
   return(N)
 }
-sensitivity_thresh <- function(threshold, sensitivity) {
+thresh.sens <- function(threshold, sensitivity) {
   N <- rep(NA,length(threshold)); names(N) <- threshold
   for(x in 1:length(threshold)){
     if(x == 1){
@@ -106,10 +106,10 @@ metrix <-
     if(length(unique(y)) == 2)
     {
       if(sensitivity) {
-        N <- sensitivity_thresh(threshold=threshold,
+        N <- thresh.sens(threshold=threshold,
                                 sensitivity=ts$sensitivity)
       } else if(NNE){
-        N <- NNE_thresh(threshold = threshold, PPV = PPV)
+        N <- thresh.NNE(threshold = threshold, PPV = PPV)
       }
       perf <- data.frame(cutoff = round(yhat[op[N]], 4), 
                          Flagged = N, TP = pf[N], 
