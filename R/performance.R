@@ -14,6 +14,24 @@ yhat_thresh <- function(threshold, yhat) {
   }
   return(N)
 }
+NNE_thresh <- function(threshold, PPV) {
+  N <- rep(NA,length(threshold)); names(N) <- threshold
+  for(x in 1:length(threshold)){
+    if(x == 1){
+      w <- which(abs(threshold[x]-(1/PPV)) == 
+                   min(abs(threshold[x]-(1/PPV)),na.rm=T))
+    } else {
+      i = (1:length(PPV))[-c(1:N[(x-1)])]
+      if(length(i)==0){ return(N) 
+      } else {
+        w <- i[which(abs(threshold[x]-(1/PPV[i])) == 
+                       min(abs(threshold[x]-(1/PPV[i])),na.rm=T))]
+      }
+    }
+    N[x] <- max(w)
+  }
+  return(N)
+}
 PPV_thresh <- function(threshold, PPV) {
   N <- rep(NA,length(threshold)); names(N) <- threshold
   for(x in 1:length(threshold)){
@@ -107,17 +125,4 @@ metrix <-
     }
     return(metrix=list(Threshold.Performance=perf,
                        Model.Performance = eval))
-  }
-perf_plot <- function(y,yhat, PPV=FALSE, sensitivity=FALSE){
-  ts <- threshstats(y,yhat)
-  if(PPV){
-   df <- data.frame(yhat=rev(yhat[ts$op[ts$np]]),
-  		    PPV=rev(ts$PPV))
-   df <- df[-c((nrow(df)-100):nrow(df)),]
-   p <- ggplot(df, aes(yhat, PPV)) +
-     geom_line() + xlim(0, 1) + ylim(0, 1) +
-    theme_bw() +
-    coord_fixed()
-  } 
-  return(p)
   }
