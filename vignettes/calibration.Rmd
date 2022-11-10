@@ -4,9 +4,9 @@ author: "Gary Weissman"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteEngine{knitr::knitr}
   %\VignetteIndexEntry{Visualizing calibration}
-  %\usepackage[UTF-8]{inputenc}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
 ---
 
 # This will be a vignette for the calibration plot examples
@@ -28,4 +28,6 @@ p2 <- predict(m2, type = 'prob')[,2]
 res <- data.frame(obs = dd$exp, glm = p1, rf = p2)
 
 calib_plot(obs ~ glm + rf, res, cut = 10)
+perf_plot(y=dd$exp, yhat=p2, PPV=T)
+
 ```
