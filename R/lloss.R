@@ -3,6 +3,7 @@
 #'
 #' @param preds A vector of predicted probabilities.
 #' @param obs A vector containing the observed binary outcomes (0 or 1).
+#' @param eps Epsilon representing the tolerance of the numeric result, used in order to avoid zero errors.
 #' @return The Log Loss given by \deqn{ logloss = y_i(\log \hat y_i) + (1-y_i)\log(1-\hat y_i)}
 #' @examples
 #' # Generate some predictions

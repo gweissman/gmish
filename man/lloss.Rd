@@ -4,12 +4,14 @@
 \alias{lloss}
 \title{Calculate the Log Lossfor predicted probabilities against a binary outcome.}
 \usage{
-lloss(preds, obs)
+lloss(preds, obs, eps = 1e-15)
 }
 \arguments{
 \item{preds}{A vector of predicted probabilities.}
 
 \item{obs}{A vector containing the observed binary outcomes (0 or 1).}
+
+\item{eps}{Epsilon representing the tolerance of the numeric result, used in order to avoid zero errors.}
 }
 \value{
 The Log Loss given by \deqn{ logloss = y_i(\log \hat y_i) + (1-y_i)\log(1-\hat y_i)}
