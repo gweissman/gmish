@@ -18,7 +18,7 @@
 # Calculations based on original code from Vickers et al.
 # See https://www.mskcc.org/departments/epidemiology-biostatistics/biostatistics/decision-curve-analysis
 
-nb_plot <- function(form, data, treat_all = TRUE, treat_none = TRUE, omniscient = TRUE, weight = 1, max_neg = 0.1) {
+nb_plot <- function(form, data, treat_all = TRUE, treat_none = TRUE, omniscient = TRUE, weight = 1L, max_neg = 0.1) {
 
   data <- as.data.table(data)
   # Identify vars
