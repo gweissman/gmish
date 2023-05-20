@@ -67,7 +67,7 @@ nb_plot <- function(form, data, treat_all = TRUE, treat_none = TRUE, omniscient 
   ymax <- max(dt_all$net_benefit, na.rm = TRUE)
 
   p <- ggplot(dt_all, aes(p_t, net_benefit, color = Model)) +
-    geom_line(size = 0.3) +
+    geom_line(linewidth = 0.3) +
     xlim(0, 1) + ylim(-1 * max_neg * ymax, ymax * 1.05) +
     xlab('Threshold probability') + ylab('Net benefit') +
     theme_bw() +
