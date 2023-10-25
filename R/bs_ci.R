@@ -58,7 +58,7 @@ bs_ci <- function(preds, obs = NULL, metric = NULL, reps = 1000, conf = 0.95,
                           R = reps, parallel = 'multicore', ncpus = num_workers)
   # Confirm variance in estimates
   res <- NULL
-  if (any(is.na(boot_ests$t))) {
+  if (any(is.na(boot_ests$t)) || any(is.na(sd(boot_ests$t)))) {
     print('Warning: Undefined variance in bootstrapped statistic. Returning NA as confidence interval limits')
     res <- c(NA, NA)
   } else if (sd(boot_ests$t) == 0) {
