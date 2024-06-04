@@ -10,7 +10,7 @@ nb_plot(
   treat_all = TRUE,
   treat_none = TRUE,
   omniscient = TRUE,
-  weight = 1,
+  weight = 1L,
   max_neg = 0.1
 )
 }

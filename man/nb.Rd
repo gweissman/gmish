@@ -4,7 +4,7 @@
 \alias{nb}
 \title{Calculate the net benefit of a model at a given probability threshold.}
 \usage{
-nb(preds, obs, p_t, weight = 1)
+nb(preds, obs, p_t, weight = NULL)
 }
 \arguments{
 \item{preds}{A vector of predicted probabilities.}
@@ -13,7 +13,7 @@ nb(preds, obs, p_t, weight = 1)
 
 \item{p_t}{The probability threshold at or above which a prediction is considered to be positive.}
 
-\item{weight}{Relative weighted importance of true positives to false positives. When weight = 1, the original net benefit calculation is used. Default = 1}
+\item{weight}{Relative weighted importance of true positives to false positives independent of the classification threshold. When weight = NULL, the original net benefit calculation is used. Default = NULL}
 }
 \value{
 The true positive count is the number of observations predicted as positive that are indeed positive.
