@@ -4,7 +4,7 @@
 #' @param preds A data.frame or matrix of predicted probabilities with one column per class.
 #' @param obs A data.frame or matrix containing the observed binary outcomes (0 or 1) with one column per class. The order of the columns should match the order for preds.
 #' @param eps Epsilon representing the tolerance of the numeric result, used in order to avoid zero errors.
-#' @return The Log Loss given by \deqn{ logloss = y_i(\log \hat y_i) + (1-y_i)\log(1-\hat y_i)}
+#' @return The Log Loss given by \deqn{ logloss = y_i(\log \hat y_i) + (1-y_i)\log(1-\hat y_i)} summed over each class.
 #' #' @examples
 #' # Generate some predictions
 #' predictions <- data.frame(p1 = runif(1000), p2 = runif(1000), p3 = runif(1000))
@@ -21,6 +21,6 @@ mc_lloss <- function(preds, obs, eps = 1e-15) {
 
   preds_adj_eps <- pmax(pmin(preds, 1 - eps), eps)
 
-  - mean(rowSums(obs * log(preds_adj_eps) + (1 - obs) * log(1 - preds_adj_eps)))
+  -1* mean(rowSums(obs * log(preds_adj_eps) + (1 - obs) * log(1 - preds_adj_eps)))
 }
 
