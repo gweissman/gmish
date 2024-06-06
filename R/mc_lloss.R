@@ -21,6 +21,6 @@ mc_lloss <- function(preds, obs, eps = 1e-15) {
 
   preds_adj_eps <- pmax(pmin(preds, 1 - eps), eps)
 
-  -1* mean(rowSums(obs * log(preds_adj_eps) + (1 - obs) * log(1 - preds_adj_eps)))
+  mean((-1 * (obs * log(preds_adj_eps) + (1-obs) * log(1-preds_adj_eps))))
 }
 
