@@ -14,7 +14,7 @@ mc_lloss(preds, obs, eps = 1e-15)
 \item{eps}{Epsilon representing the tolerance of the numeric result, used in order to avoid zero errors.}
 }
 \value{
-The Log Loss given by \deqn{ logloss = y_i(\log \hat y_i) + (1-y_i)\log(1-\hat y_i)}
+The Log Loss given by \deqn{ logloss = y_i(\log \hat y_i) + (1-y_i)\log(1-\hat y_i)} summed over each class.
 #' @examples
 # Generate some predictions
 predictions <- data.frame(p1 = runif(1000), p2 = runif(1000), p3 = runif(1000))
