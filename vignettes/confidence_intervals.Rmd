@@ -4,8 +4,8 @@ author: "Gary Weissman"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Confidence intervals}
+  %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[UTF-8]{inputenc}
 ---
 

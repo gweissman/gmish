@@ -32,7 +32,6 @@ prg_plot <- function(form, data, max_intervals = 1000) {
   if (length(unique_preds) > max_intervals) {
                     intervals <- seq(0, 1, length.out = max_intervals)
 }
-  print(intervals)
   dt <- lapply(.mods, function(m) {
 
     precision_gain <- function (TP, FN, FP, TN)
