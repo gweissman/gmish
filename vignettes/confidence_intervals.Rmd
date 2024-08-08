@@ -1,13 +1,21 @@
 ---
-title: "Introduction to confidence intervals with gmish"
+title: "Confidence Intervals"
 author: "Gary Weissman"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Confidence intervals}
   %\VignetteEngine{knitr::rmarkdown}
-  %\usepackage[UTF-8]{inputenc}
+  %\VignetteEncoding{UTF-8}
 ---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
 
 # This will be a vignette for the confidence interval examples
 
