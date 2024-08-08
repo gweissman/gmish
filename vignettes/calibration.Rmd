@@ -4,12 +4,14 @@ author: "Gary Weissman"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteEngine{knitr::knitr}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Visualizing calibration}
   %\usepackage[UTF-8]{inputenc}
 ---
 
 # This will be a vignette for the calibration plot examples
+
+First, let's train two models on the same data set.
 
 ```{r}
 library(gmish)
@@ -25,10 +27,67 @@ p1 <- predict(m1, type = 'response')
 m2 <- randomForest(as.factor(exp) ~ ., data = dd, ntrees = 50)
 p2 <- predict(m2, type = 'prob')[,2]
 
+```
+
+Now we can see the predictions from both models.
+
+```{r preds}
 res <- data.frame(obs = dd$exp, glm = p1, rf = p2)
+head(res)
+```
 
+Now let's examine the calibration of each model in predicting the same outcome. We can use this easy formula interface.
+
+```{r calib}
+# First look at glm model
+calib_plot(obs ~ glm, res, cut = 10)
+# Then look at RF model
+calib_plot(obs ~ rf, res, cut = 10)
+
+# Sometimes it's helpful to add a best fit line (linear model)
+calib_plot(obs ~ rf, res, cut = 10, fitline = TRUE)
+
+# Sometimes it's helpful to add a smoothed fit line (loess)
+calib_plot(obs ~ rf, res, cut = 10, smooth = TRUE)
+
+```
+
+Sometimes it's helpful to look at the distribution of the probabilities. So let's add a rug plot.
+
+```{r more feats}
+# Now look at both models at the same time
 calib_plot(obs ~ glm + rf, res, cut = 10)
-
+# Show rug
 calib_plot(obs ~ glm + rf, res, cut = 10, rug = TRUE)
+```
+
+And sometimes we may want to increase or decrease the number of bins.
+
+```{r bins}
+# Fewer bins
+calib_plot(obs ~ glm, res, cut = 5)
+# More bins
+calib_plot(obs ~ glm, res, cut = 20)
+# And change the color for fun because calib_plot returns a ggplot object
+calib_plot(obs ~ glm + rf, res, cut = 10) + ggplot2::scale_color_viridis_d()
+```
+
+And sometimes there may be multiple outcomes *and* multiple models. Here is a multi-class calibration plot. This approach may be helpful when you want to plot the calibration of a single model among subgroups.
+
+```{r multi}
+# first create a new model with a different outcome
+dd2 <- ggplot2::diamonds
+dd2$exp2 <- dd2$price > 4000
+dd2$price <- NULL
+
+m3 <- glm(exp2 ~ ., data = dd2, family = 'binomial')
+p3 <- predict(m3, type = 'response')
+
+res2 <- data.frame(obs1 = dd$exp, obs2 = dd2$exp2, glm1 = p1, glm2 = p3)
+head(res2)
+
+# Now use the formula interface to plot each outcome (LHS) against each prediction (RHS)
+# in the order that they correspond
+mc_calib_plot(obs1 + obs2 ~ glm1 + glm2, data = res2)
 
 ```

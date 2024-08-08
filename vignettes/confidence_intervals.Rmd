@@ -1,0 +1,75 @@
+---
+title: "Introduction to confidence intervals with gmish"
+author: "Gary Weissman"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Confidence intervals}
+  %\usepackage[UTF-8]{inputenc}
+---
+
+# This will be a vignette for the confidence interval examples
+
+First, let's train two models on the same data set.
+
+```{r}
+library(gmish)
+library(randomForest, quiet = TRUE)
+library(palmerpenguins)
+
+# Just use non-missing data for this example
+pp <- penguins[complete.cases(penguins),]
+
+# Fit some models
+m1 <- glm(I(sex == 'female') ~ ., data = pp, family = 'binomial')
+p1 <- predict(m1, type = 'response')
+
+m2 <- randomForest(as.factor((sex == 'female')) ~ ., data = pp, ntrees = 50)
+p2 <- predict(m2, type = 'prob')[,2]
+
+```
+
+How well did the models perform?
+
+```{r preds}
+# Discrimination
+cstat(p1, pp$sex == 'female')
+cstat(p2, pp$sex == 'female')
+
+# Calibration
+ici(p1, pp$sex == 'female')
+ici(p2, pp$sex == 'female')
+
+# Composite measure
+sbrier(p1, pp$sex == 'female')
+sbrier(p2, pp$sex == 'female')
+```
+
+But often times we want confidence intervals around those estimates of model performance.
+
+```{r confints}
+# Use the basic bootstrap by default
+bs_ci(p1, pp$sex == 'female', metric = sbrier)
+
+# Can switch to bias-corrected, accelerated
+# Will sometimes fail for small samples or with minimal variance
+bs_ci(p1, pp$sex == 'female', metric = sbrier, btype = 'bca')
+```
+
+Sometimes we want to get performance measures and confidence intervals for several measures at once.
+
+```{r df}
+make_perf_df(p2, pp$sex == 'female')
+
+# Or customize which metrics we want
+make_perf_df(p2, pp$sex == 'female', metrics = c('rsq', 'fscore', 'brier'))
+```
+
+What about the boostrapped difference in performance between these two models? Is it different from zero? Let's get the observed difference, confidence intervals around that difference, and an empiric p value. This returns the difference in performance of model 2 minus model 1.
+
+```{r bsdiff}
+boot_diff(p1, p2, pp$sex == 'female', metric = rsq)
+```
+
+In this case the difference is negative, suggesting that the performance of model 1 (`p1`) has the higher r squared value and thus the better performance.
