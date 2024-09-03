@@ -9,6 +9,7 @@
 #' @param conf The width of the confidence interval. Default = 0.95.
 #' @param seed An optional random seed.
 #' @param btype The type of bootstrap to calculate. Default is 'basic', also takes 'bca', or other types supported in the `boot` package.
+#' @param use_parallel Provides the parallel backend to the boot package. Default is 'multicore'. Use 'no' to turn off parallel processing.
 #' @param ... Additional arguments for the particular metric function, e.g. `thresh = 0.6`
 #' @examples
 #' # Generate some predictions
@@ -19,7 +20,7 @@
 #' bs_ci(predictions, observations, metric = brier)
 
 bs_ci <- function(preds, obs = NULL, metric = NULL, reps = 1000, conf = 0.95,
-                  seed = NULL, btype = "basic", ...) {
+                  seed = NULL, btype = "basic", use_parallel = 'multicore', ...) {
   # Error checking
   assertthat::assert_that(all(preds>=0) & all(preds<=1), msg = 'all values of preds must fall between 0 and 1 (inclusive)')
   if (! identical(metric, ent)) {
@@ -55,7 +56,7 @@ bs_ci <- function(preds, obs = NULL, metric = NULL, reps = 1000, conf = 0.95,
 
   # Generate replicates
   boot_ests <- boot::boot(data = cbind(preds, obs), statistic = boot_stat(metric, ...),
-                          R = reps, parallel = 'multicore', ncpus = num_workers)
+                          R = reps, parallel = use_parallel, ncpus = num_workers)
   # Confirm variance in estimates
   res <- NULL
   if (any(is.na(boot_ests$t)) || any(is.na(sd(boot_ests$t)))) {
