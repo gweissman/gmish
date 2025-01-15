@@ -22,6 +22,7 @@ First, let's train two models on the same data set.
 
 ```{r}
 library(gmish)
+library(ggplot2)
 library(randomForest, quiet = TRUE)
 
 dd <- ggplot2::diamonds
@@ -61,7 +62,7 @@ calib_plot(obs ~ rf, res, cut = 10, smooth = TRUE)
 
 Sometimes it's helpful to look at the distribution of the probabilities. So let's add a rug plot.
 
-```{r more feats}
+```{r morefeats}
 # Now look at both models at the same time
 calib_plot(obs ~ glm + rf, res, cut = 10)
 # Show rug
@@ -96,5 +97,13 @@ head(res2)
 # Now use the formula interface to plot each outcome (LHS) against each prediction (RHS)
 # in the order that they correspond
 mc_calib_plot(obs1 + obs2 ~ glm1 + glm2, data = res2)
+```
+
+Sometimes you want to look at the calibration of a single model among subgroups of unequal sizes. This is best accomplished using `geom_calib`.
+
+```{r geomcalib}
+# Generate some random groupings
+res2$groups <- sample(letters[1:5], size = nrow(res), replace = TRUE)
+ggplot(res2, aes(obs1, glm1, color = groups)) + geom_calib()
 
 ```

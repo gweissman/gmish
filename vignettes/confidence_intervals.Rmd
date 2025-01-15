@@ -4,7 +4,7 @@ author: "Gary Weissman"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Confidence intervals}
+  %\VignetteIndexEntry{Confidence Intervals}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -74,7 +74,7 @@ make_perf_df(p2, pp$sex == 'female')
 make_perf_df(p2, pp$sex == 'female', metrics = c('rsq', 'fscore', 'brier'))
 ```
 
-What about the boostrapped difference in performance between these two models? Is it different from zero? Let's get the observed difference, confidence intervals around that difference, and an empiric p value. This returns the difference in performance of model 2 minus model 1.
+What about the bootstrapped difference in performance between these two models? Is it different from zero? Let's get the observed difference, confidence intervals around that difference, and an empiric p value. This returns the difference in performance of model 2 minus model 1.
 
 ```{r bsdiff}
 boot_diff(p1, p2, pp$sex == 'female', metric = rsq)
