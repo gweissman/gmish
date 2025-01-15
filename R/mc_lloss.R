@@ -16,10 +16,9 @@
 #' mc_lloss(predictions, observations)
 mc_lloss <- function(preds, obs, eps = 1e-15) {
 
-  preds <- as.matrix(preds)
   obs <- as.matrix(obs)
 
-  preds_adj_eps <- pmax(pmin(preds, 1 - eps), eps)
+  preds_adj_eps <- pmax(pmin(as.matrix(preds), 1 - eps), eps)
 
   mean((-1 * (obs * log(preds_adj_eps) + (1-obs) * log(1-preds_adj_eps))))
 }
