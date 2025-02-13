@@ -28,8 +28,7 @@ calib_plot <- function(form, data, cuts = 10, refline = TRUE,
 
 # Inspired by Darren Dahly: https://darrendahly.github.io/post/homr/
   dt <- lapply(.mods, function(m) {
-      data[,c(m,.y), with = FALSE][, bin := cut(get(m), breaks = cuts,
-                                   labels = FALSE)][,
+      data[,c(m,.y), with = FALSE][, bin := cut_number(get(m), n = cuts)][,
                                               .(Model = m,
                                                 Predicted = mean(get(m)),
                                                 Observed = mean(get(.y)),

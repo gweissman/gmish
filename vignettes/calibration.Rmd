@@ -104,6 +104,6 @@ Sometimes you want to look at the calibration of a single model among subgroups 
 ```{r geomcalib}
 # Generate some random groupings
 res2$groups <- sample(letters[1:5], size = nrow(res), replace = TRUE)
-ggplot(res2, aes(obs1, glm1, color = groups)) + geom_calib()
+ggplot(res2, aes(glm1, obs1, color = groups)) + geom_calib()
 
 ```

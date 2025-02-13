@@ -12,6 +12,7 @@ bs_ci(
   conf = 0.95,
   seed = NULL,
   btype = "basic",
+  use_parallel = "multicore",
   ...
 )
 }
@@ -29,6 +30,8 @@ bs_ci(
 \item{seed}{An optional random seed.}
 
 \item{btype}{The type of bootstrap to calculate. Default is 'basic', also takes 'bca', or other types supported in the `boot` package.}
+
+\item{use_parallel}{Provides the parallel backend to the boot package. Default is 'multicore'. Use 'no' to turn off parallel processing.}
 
 \item{...}{Additional arguments for the particular metric function, e.g. `thresh = 0.6`}
 }

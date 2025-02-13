@@ -35,8 +35,7 @@ mc_calib_plot <- function(form, data, cuts = 10, refline = TRUE,
   .mods <- all.vars(form)[-(1:num_classes)]
 
   dt <- lapply(seq_len(num_classes), function(m) {
-    data[,c(.mods[m],.y[m]), with = FALSE][, bin := cut(get(.mods[m]), breaks = cuts,
-                                              labels = FALSE)][,
+    data[,c(.mods[m],.y[m]), with = FALSE][, bin := cut_number(get(.mods[m]), breaks = cuts)][,
                                                                .(Class = .mods[m],
                                                                  Predicted = mean(get(.mods[m])),
                                                                  Observed = mean(get(.y[m])),

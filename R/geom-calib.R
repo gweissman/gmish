@@ -6,7 +6,7 @@
 #' allows for adjustment of line color across groups of unequal sizes.
 #'
 #' @import grid
-#'
+#' @import ggplot2
 #'
 
 # Define the StatCalibration object
@@ -25,8 +25,7 @@ StatCalibration <- ggproto("StatCalibration", Stat,
 
                            compute_group = function(data, scales, n_bins = 10, confidence_level = 0.95, show_labels = TRUE) {
                              # Create bins
-                             breaks <- seq(min(data$x), max(data$x), length.out = n_bins + 1)
-                             data$bin <- cut(data$x, breaks = breaks, include.lowest = TRUE)
+                             data$bin <- cut_number(data$x, n = n_bins)
 
                              # Calculate statistics for each bin
                              result <- do.call(rbind, lapply(split(data, data$bin), function(bin_data) {
@@ -154,11 +153,11 @@ GeomCalibration <- ggproto("GeomCalibration", Geom,
 #' predictions <- runif(1000)
 #' # Generate some binary outcomes
 #' observations <- sample(0:1, size = 1000, replace = TRUE)
-#' Make some groups
+#' # Make some groups
 #' grp <- sample(letters[1:5], size = 1000, replace = TRUE)
 #' # Generate a calibration plot
-#' ggplot2::ggplot(data.frame(predictions, observations), aes(predictions, observations)) + geom_calib()
-#' ggplot2::ggplot(data.frame(predictions, observations), aes(predictions, observations, color = grp)) + geom_calib()
+#' ggplot(data.frame(predictions, observations), aes(predictions, observations)) + geom_calib()
+#' ggplot(data.frame(predictions, observations), aes(predictions, observations, color = grp)) + geom_calib()
 geom_calib <- function(
     mapping = NULL,
     data = NULL,
