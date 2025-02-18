@@ -33,7 +33,7 @@ calib_plot(
 Produce a calibration plot for a set of predicted probabilities for a binary classifier.
 }
 \examples{
-m1 <- glm(mpg > 20 ~ cyl + disp + hp, family = 'binomial', data = mtcars)
+m1 <- glm(mpg > 20 ~ cyl + disp, family = 'binomial', data = mtcars)
 results <- data.frame(outcome = mtcars$mpg > 20, lr_1 = predict(m1, type = 'response'))
-calib_plot(outcome ~ lr_1, data = results, cuts = 5)
+calib_plot(outcome ~ lr_1, data = results, cuts = 4)
 }

@@ -33,11 +33,11 @@ Produce a calibration plot for a set of predicted probabilities for a single mod
 library(ranger)
 library(palmerpenguins)
 pp <- penguins[complete.cases(penguins),]
-m1 <- ranger(species ~ island + bill_length_mm + flipper_length_mm + body_mass_g + sex,
+m1 <- ranger(species ~ island + bill_length_mm + sex,
       data = pp, probability = TRUE)
 p_obj <- predict(m1, data = pp)
 results <- data.frame(p_obj$predictions, ohe(pp$species, drop_ref = FALSE))
 mc_calib_plot(pp.species_Adelie + pp.species_Chinstrap + pp.species_Gentoo ~
       Adelie + Chinstrap + Gentoo,
-      data = results, cuts = 5)
+      data = results, cuts = 4)
 }

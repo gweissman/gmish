@@ -15,13 +15,13 @@
 #' library(ranger)
 #' library(palmerpenguins)
 #' pp <- penguins[complete.cases(penguins),]
-#' m1 <- ranger(species ~ island + bill_length_mm + flipper_length_mm + body_mass_g + sex,
+#' m1 <- ranger(species ~ island + bill_length_mm + sex,
 #'       data = pp, probability = TRUE)
 #' p_obj <- predict(m1, data = pp)
 #' results <- data.frame(p_obj$predictions, ohe(pp$species, drop_ref = FALSE))
 #' mc_calib_plot(pp.species_Adelie + pp.species_Chinstrap + pp.species_Gentoo ~
 #'       Adelie + Chinstrap + Gentoo,
-#'       data = results, cuts = 5)
+#'       data = results, cuts = 4)
 
 mc_calib_plot <- function(form, data, cuts = 10, refline = TRUE,
                        smooth = FALSE, rug = FALSE) {
@@ -35,7 +35,7 @@ mc_calib_plot <- function(form, data, cuts = 10, refline = TRUE,
   .mods <- all.vars(form)[-(1:num_classes)]
 
   dt <- lapply(seq_len(num_classes), function(m) {
-    data[,c(.mods[m],.y[m]), with = FALSE][, bin := cut_number(get(.mods[m]), breaks = cuts)][,
+    data[,c(.mods[m],.y[m]), with = FALSE][, bin := cut_number(get(.mods[m]), n = cuts)][,
                                                                .(Class = .mods[m],
                                                                  Predicted = mean(get(.mods[m])),
                                                                  Observed = mean(get(.y[m])),

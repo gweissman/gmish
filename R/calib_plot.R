@@ -13,9 +13,9 @@
 #' @param fitline Whether or not to include a best-fit line for each models' probabilities. Default = FALSE.
 #' @param rug Whether or not to include a rug plot of the observed probabilities. Usually works best with only one model. Default = FALSE.
 #' @examples
-#' m1 <- glm(mpg > 20 ~ cyl + disp + hp, family = 'binomial', data = mtcars)
+#' m1 <- glm(mpg > 20 ~ cyl + disp, family = 'binomial', data = mtcars)
 #' results <- data.frame(outcome = mtcars$mpg > 20, lr_1 = predict(m1, type = 'response'))
-#' calib_plot(outcome ~ lr_1, data = results, cuts = 5)
+#' calib_plot(outcome ~ lr_1, data = results, cuts = 4)
 
 calib_plot <- function(form, data, cuts = 10, refline = TRUE,
                        smooth = FALSE, fitline = FALSE,
@@ -38,7 +38,7 @@ calib_plot <- function(form, data, cuts = 10, refline = TRUE,
   })
 dt_all <- rbindlist(dt)
 p <- ggplot(dt_all, aes(Predicted, Observed, color = Model)) +
-  geom_point(size = 0.3) + geom_line(size = 0.3) +
+  geom_point(size = 0.3) + geom_line(linewidth = 0.3) +
   geom_errorbar(aes(ymin = ci_lo, ymax = ci_hi), width = 0.03, size = 0.3) +
   xlim(0, 1) + ylim(0, 1) +
   theme_bw() +

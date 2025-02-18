@@ -43,7 +43,7 @@ calib_plot_c <- function(form, data, cuts = 10, refline = TRUE,
   axis_max <- max(with(dt_all, c(Predicted, Observed, ci_hi)))
 
   p <- ggplot(dt_all, aes(Predicted, Observed, color = Model)) +
-    geom_point(size = 0.3) + geom_line(size = 0.3) +
+    geom_point(size = 0.3) + geom_line(linewidth = 0.3) +
     geom_errorbar(aes(ymin = ci_lo, ymax = ci_hi), width = 0.03, size = 0.3) +
     scale_x_continuous("Predicted", limits = c(axis_min, axis_max)) +
     scale_y_continuous("Observed", limits = c(axis_min, axis_max)) +
