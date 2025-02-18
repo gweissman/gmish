@@ -4,7 +4,17 @@
 \alias{bs_ci}
 \title{Calculate the bias-corrected, basic bootstrapped confidence interval for a given performance metric.}
 \usage{
-bs_ci(preds, obs, metric = NULL, reps = 1000, conf = 0.95, seed = NULL, ...)
+bs_ci(
+  preds,
+  obs = NULL,
+  metric = NULL,
+  reps = 1000,
+  conf = 0.95,
+  seed = NULL,
+  btype = "basic",
+  use_parallel = "multicore",
+  ...
+)
 }
 \arguments{
 \item{preds}{A vector of predicted probabilities.}
@@ -19,6 +29,10 @@ bs_ci(preds, obs, metric = NULL, reps = 1000, conf = 0.95, seed = NULL, ...)
 
 \item{seed}{An optional random seed.}
 
+\item{btype}{The type of bootstrap to calculate. Default is 'basic', also takes 'bca', or other types supported in the `boot` package.}
+
+\item{use_parallel}{Provides the parallel backend to the boot package. Default is 'multicore'. Use 'no' to turn off parallel processing.}
+
 \item{...}{Additional arguments for the particular metric function, e.g. `thresh = 0.6`}
 }
 \description{
@@ -30,5 +44,5 @@ predictions <- runif(1000)
 # Generate some binary outcomes
 observations <- sample(0:1, size = 1000, replace = TRUE)
 # Calculate the Confidence interval around the estimate of the Brier Score
-bs_ci(predictions, observations, metric = bs)
+bs_ci(predictions, observations, metric = brier)
 }

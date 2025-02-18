@@ -2,13 +2,14 @@ Package: gmish
 Type: Package
 Title: Miscellaneous Functions for Predictive Modeling
 Version: 0.1.0
-Imports: assertthat, boot, data.table, ggplot2
-Suggests: knitr, rmarkdown
+Imports: assertthat, boot, data.table, ggplot2, mgcv, Hmisc, patchwork
+Suggests: knitr, rmarkdown, markdown
+Depends: randomForest, ranger, palmerpenguins
 Author: Gary Weissman
 Maintainer: Gary Weissman <garyw@upenn.edu>
 Description: Useful functions for wrangling data, training, and evaluating prediction models. Commonly used functions include the Brier Score, Scaled Brier Score, and a quick one-hot encoding utility. The package name is pronounced "g'mish", Yiddish for a collection of odds and ends. The name is inspired by Hmisc, but gmisc was already taken.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.1
 VignetteBuilder: knitr

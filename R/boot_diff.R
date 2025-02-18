@@ -1,5 +1,6 @@
 #' Calculate the bootstrapped empiric two-sided p-value and difference between two sets of predictions for a given performance metric.
 #' @export
+#' @importFrom stats median sd
 #'
 #' @param preds1 A vector of predicted probabilities for the first model.
 #' @param preds2 A vector of predicted probabilities for the second model.
@@ -16,7 +17,7 @@
 #' # Generate some binary outcomes
 #' observations <- sample(0:1, size = 1000, replace = TRUE)
 #' # Calculate the Confidence interval around the estimate of the Brier Score
-#' boot_diff(p1, p2, observations, metric = bs)
+#' boot_diff(p1, p2, observations, metric = brier)
 
 boot_diff <- function(preds1, preds2, obs, metric = NULL, reps = 1000, conf = 0.95, seed = NULL, ...) {
   # Error checking
@@ -48,10 +49,10 @@ boot_diff <- function(preds1, preds2, obs, metric = NULL, reps = 1000, conf = 0.
   # Check for bad replicates
   if (any(is.na(boot_ests$t))) {
     warning(paste0(sum(is.na(boot_ests$t)),
-                 ' replicate(s) produced NaN. Proceeding with estimation.'))
+                 ' replicate(s) produced NaN. Proceeding with estimation with imputed medians.'))
     idx_na <- which(is.na(boot_ests$t))
 
-    boot_ests$t <- boot_ests$t[-idx_na]
+    boot_ests$t[idx_na] <- median(boot_ests$t[-idx_na])
   }
   # Recenter distribution to zero
   dist <- boot_ests$t - mean(boot_ests$t)
@@ -65,7 +66,7 @@ boot_diff <- function(preds1, preds2, obs, metric = NULL, reps = 1000, conf = 0.
   obs_diff <- metric(preds2, obs) - metric(preds1, obs)
 
   # Get CI of difference
-  boot_ci <- boot::boot.ci(boot_ests, conf, type = 'basic')
+  boot_ci <- boot::boot.ci(boot_ests, conf, type = 'basic', parallel = 'multicore', ncpus = parallel::detectCores())
 
   # Return results
   res <- c(obs_diff, empiric_pval(dist, obs_diff),
@@ -73,8 +74,8 @@ boot_diff <- function(preds1, preds2, obs, metric = NULL, reps = 1000, conf = 0.
   mname <- deparse(substitute(metric))
   names(res) <- c(paste0(mname, '_diff_obs'),
                   paste0(mname, '_diff_pval'),
-                  paste0(mname, '_diff_ci_', (1-conf)/2, '%'),
-                  paste0(mname, '_diff_ci_', conf + (1-conf)/2, '%'))
+                  paste0(mname, '_diff_ci_', (1-conf)/2),
+                  paste0(mname, '_diff_ci_', conf + (1-conf)/2))
   return(res)
 }
 

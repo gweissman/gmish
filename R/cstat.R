@@ -18,8 +18,7 @@ cstat <- function(preds, obs) {
   assertthat::are_equal(sort(unique(obs)), c(0,1),
                           msg = 'obs must only contain 0 and 1, and must contain both 0 and 1')
 
-  # C-stat is a probabilistic measure
-  comb_df <- expand.grid(preds[obs == 0],
-                         preds[obs == 1])
-  with(comb_df, mean(Var2 > Var1))
+  # use this faster approach: https://stats.stackexchange.com/questions/145566/how-to-calculate-area-under-the-curve-auc-or-the-c-statistic-by-hand
+  o <- outer(preds[obs == 1], preds[obs == 0], "-")
+  mean((o > 0) + .5 * (o == 0))
 }

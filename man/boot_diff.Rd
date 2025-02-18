@@ -42,5 +42,5 @@ p2 <- runif(1000)
 # Generate some binary outcomes
 observations <- sample(0:1, size = 1000, replace = TRUE)
 # Calculate the Confidence interval around the estimate of the Brier Score
-boot_diff(p1, p2, observations, metric = bs)
+boot_diff(p1, p2, observations, metric = brier)
 }

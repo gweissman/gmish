@@ -1,0 +1,74 @@
+---
+title: "Other performance measures"
+author: "Gary Weissman"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Other performance measures}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+# This will be a vignette for the confidence interval examples
+
+First, let's train two models on the same data set.
+
+```{r}
+library(gmish)
+library(randomForest, quiet = TRUE)
+library(palmerpenguins)
+
+# Just use non-missing data for this example
+pp <- penguins[complete.cases(penguins),]
+
+# Fit some models
+m1 <- glm(I(sex == 'female') ~ ., data = pp, family = 'binomial')
+p1 <- predict(m1, type = 'response')
+
+m2 <- randomForest(as.factor((sex == 'female')) ~ ., data = pp, ntrees = 50)
+p2 <- predict(m2, type = 'prob')[,2]
+
+results_df <- data.frame(y = pp$sex == 'female', mod_glm = p1, mod_rf = p2)
+
+```
+
+There are many other ways of visualizing model performance measures that may be of interest. 
+
+A ROC plot.
+
+```{r roc}
+roc_plot(y ~ mod_glm + mod_rf, data = results_df)
+```
+
+A precision-recall plot.
+
+```{r pr}
+pr_plot(y ~ mod_glm + mod_rf, data = results_df)
+```
+
+A threshold plot.
+
+```{r th}
+thresh_plot(results_df$mod_rf, results_df$y)
+thresh_plot(results_df$mod_rf, results_df$y, metrics = c('sens', 'spec'))
+```
+
+A precision-recall-gain plot.
+
+```{r prg}
+prg_plot(y ~ mod_glm + mod_rf, data = results_df)
+```
+
+A net benefit plot.
+
+```{r nb}
+nb_plot(y ~ mod_glm + mod_rf, data = results_df)
+```

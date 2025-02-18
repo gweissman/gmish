@@ -10,8 +10,8 @@
 #' # Generate some binary outcomes
 #' observations <- sample(0:1, size = 1000, replace = TRUE)
 #' # Calculate the Brier Score
-#' bs(predictions, observations)
-bs <- function(preds, obs) {
+#' brier(predictions, observations)
+brier <- function(preds, obs) {
   # Error checking
   assertthat::assert_that(length(preds) == length(obs),
                           msg = 'preds and obs must be of equal length')
