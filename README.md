@@ -6,7 +6,7 @@ A collection of miscellaneous functions for data wrangling and predictive modeli
 
 ```{r}
 install.packages('remotes')
-remotes::install_github("gweissman/gmish")
+remotes::install_github("gweissman/gmish", build_vignettes = TRUE)
 ```
 
 # Example usage
