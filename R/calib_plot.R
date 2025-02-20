@@ -26,6 +26,25 @@ calib_plot <- function(form, data, cuts = 10, refline = TRUE,
   .y <- all.vars(form)[1]
   .mods <- all.vars(form)[-1]
 
+
+# Determine the number of tolerable bins
+  cuts_initial <- cuts
+  cuts_check <- TRUE
+  while (cuts_check && cuts > 0) {
+    tryCatch(expr = {
+    lapply(.mods, function(m) {
+      data[,c(m,.y), with = FALSE][, bin := cut_number(get(m), n = cuts)]
+    })
+      cuts_check <- FALSE
+    },
+    error = function(e) {
+      # If the above throws an error, reduce the number of  cuts
+      cuts <<- cuts - 1
+    })
+  }
+  if (cuts == 0) stop("Not enough different predictions to make any bins for a calibration plot.")
+  if (cuts != cuts_initial) message("Using a reduced number of bins to make calibration plots.")
+
 # Inspired by Darren Dahly: https://darrendahly.github.io/post/homr/
   dt <- lapply(.mods, function(m) {
       data[,c(m,.y), with = FALSE][, bin := cut_number(get(m), n = cuts)][,
@@ -39,18 +58,18 @@ calib_plot <- function(form, data, cuts = 10, refline = TRUE,
 dt_all <- rbindlist(dt)
 p <- ggplot(dt_all, aes(Predicted, Observed, color = Model)) +
   geom_point(size = 0.3) + geom_line(linewidth = 0.3) +
-  geom_errorbar(aes(ymin = ci_lo, ymax = ci_hi), width = 0.03, size = 0.3) +
+  geom_errorbar(aes(ymin = ci_lo, ymax = ci_hi), width = 0.03, linewidth = 0.3) +
   xlim(0, 1) + ylim(0, 1) +
   theme_bw() +
   coord_fixed()
 
-if (refline) p$layers <- c(geom_abline(slope = 1, intercept = 0, size = 0.5, color = 'lightgray'), p$layers)
+if (refline) p$layers <- c(geom_abline(slope = 1, intercept = 0, linewidth = 0.5, color = 'lightgray'), p$layers)
 
 if (fitline) p <- p + geom_smooth(method = 'lm', se = FALSE,
-                                 lty = 5, formula = y ~ -1 + x, size = 0.3)
+                                 lty = 5, formula = y ~ -1 + x, linewidth = 0.3)
 
 if (smooth) p <- p + geom_smooth(method = 'loess', se = FALSE,
-                                  lty = 10, formula = y ~ -1 + x, size = 0.3)
+                                  lty = 10, formula = y ~ -1 + x, linewidth = 0.3)
 
 if (rug) {
   dt_preds <- data[, .mods, with = FALSE]

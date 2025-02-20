@@ -34,6 +34,24 @@ mc_calib_plot <- function(form, data, cuts = 10, refline = TRUE,
   .y <- all.vars(form)[1:num_classes]
   .mods <- all.vars(form)[-(1:num_classes)]
 
+  # Determine the number of tolerable bins
+  cuts_initial <- cuts
+  cuts_check <- TRUE
+  while (cuts_check && cuts > 0) {
+    tryCatch(expr = {
+      lapply(.mods, function(m) {
+        data[,c(m,.y), with = FALSE][, bin := cut_number(get(m), n = cuts)]
+      })
+      cuts_check <- FALSE
+    },
+    error = function(e) {
+      # If the above throws an error, reduce the number of  cuts
+      cuts <<- cuts - 1
+    })
+  }
+  if (cuts == 0) stop("Not enough different predictions to make any bins for a calibration plot.")
+  if (cuts != cuts_initial) message("Using a reduced number of bins to make calibration plots.")
+
   dt <- lapply(seq_len(num_classes), function(m) {
     data[,c(.mods[m],.y[m]), with = FALSE][, bin := cut_number(get(.mods[m]), n = cuts)][,
                                                                .(Class = .mods[m],
