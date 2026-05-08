@@ -10,7 +10,6 @@ nb_plot(
   treat_all = TRUE,
   treat_none = TRUE,
   omniscient = TRUE,
-  weight = 1L,
   max_neg = 0.1
 )
 }
@@ -24,8 +23,6 @@ nb_plot(
 \item{treat_none}{Whether or not to include a line indicating the net benefit of a model that treats no one. Default = TRUE}
 
 \item{omniscient}{Whether or not to include a line indicating the net benefit of a model that guesses the actual observed outcome for each prediction. Default = TRUE}
-
-\item{weight}{Relative weighted importance of true positives to false positives. When weight = 1, the original net benefit calculation is used. Default = 1}
 
 \item{max_neg}{The lower y-range below y = 0 that is plotted as a proportion of the highest possible net benefit. Default = 0.1}
 }

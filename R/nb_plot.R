@@ -8,7 +8,6 @@
 #' @param treat_all Whether or not to include a line indicating the net benefit of a model that treats everyone Default = TRUE
 #' @param treat_none Whether or not to include a line indicating the net benefit of a model that treats no one. Default = TRUE
 #' @param omniscient Whether or not to include a line indicating the net benefit of a model that guesses the actual observed outcome for each prediction. Default = TRUE
-#' @param weight Relative weighted importance of true positives to false positives. When weight = 1, the original net benefit calculation is used. Default = 1
 #' @param max_neg The lower y-range below y = 0 that is plotted as a proportion of the highest possible net benefit. Default = 0.1
 #' @examples
 #' m1 <- glm(mpg > 20 ~ cyl + disp + hp, family = 'binomial', data = mtcars)
@@ -18,7 +17,7 @@
 # Calculations based on original code from Vickers et al.
 # See https://www.mskcc.org/departments/epidemiology-biostatistics/biostatistics/decision-curve-analysis
 
-nb_plot <- function(form, data, treat_all = TRUE, treat_none = TRUE, omniscient = TRUE, weight = 1L, max_neg = 0.1) {
+nb_plot <- function(form, data, treat_all = TRUE, treat_none = TRUE, omniscient = TRUE, max_neg = 0.1) {
 
   data <- as.data.table(data)
   # Identify vars
@@ -30,8 +29,7 @@ nb_plot <- function(form, data, treat_all = TRUE, treat_none = TRUE, omniscient 
                                                                .(Model = m,
                                                                  net_benefit = nb(data[,get(m)],
                                                                                        data[,get(.y)],
-                                                                                       p_t = p_t,
-                                                                                       weight = weight)),
+                                                                                       p_t = p_t)),
                                                                by = p_t]
   })
 
@@ -40,8 +38,7 @@ nb_plot <- function(form, data, treat_all = TRUE, treat_none = TRUE, omniscient 
                                       .(Model = 'Treat all',
                                         net_benefit = nb(rep(1, nrow(data)), # guess 1 for everyone
                                                          data[,get(.y)],
-                                                         p_t = p_t,
-                                                         weight = weight)),
+                                                         p_t = p_t)),
                                       by = p_t]
     dt_list <- append(dt_list, list(treat_all_dt))
   }
@@ -56,8 +53,7 @@ nb_plot <- function(form, data, treat_all = TRUE, treat_none = TRUE, omniscient 
                                                       .(Model = 'Treat omnisciently',
                                                         net_benefit = nb(data[,get(.y)],
                                                                          data[,get(.y)],
-                                                                         p_t = p_t,
-                                                                         weight = weight)),
+                                                                         p_t = p_t)),
                                                       by = p_t]
     dt_list <- append(dt_list, list(omniscient_dt))
   }
